@@ -57,6 +57,8 @@ function pkgJson(name, client) {
     peerDependencies: { '@deepseek-ai/dsh': '>=0.2.0 <0.3.0' },
     dsh: {
       manifestVersion: 1,
+      capabilities: [],
+      labels: [],
       bundle: { patch: './cordis.patch.yml' },
     },
   }
@@ -106,6 +108,17 @@ A DeepSeek Harness plugin created with \`dsh-start\`.
 \`\`\`sh
 dsh plugin --profile web add ${name}
 \`\`\`
+
+## Declarations
+
+\`package.json\` is JSON, so it cannot carry comments — do not add any.
+
+\`dsh.capabilities\` and \`dsh.labels\` are declared as empty arrays. An empty
+array means this plugin uses none of them. Declare only the capabilities and
+labels the code actually uses: \`ctx.fs\` needs \`fs:read\` (or \`fs:write\`),
+\`ctx.tools.register\` needs \`tools:register\`, and so on. Once the code uses
+one of those APIs the matching capability is mandatory — leaving it out turns
+the checker's hint into a failure.
 
 ## Next
 
