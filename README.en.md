@@ -1,8 +1,8 @@
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-plugin-start-flow-dark.svg">
-  <img src="docs/assets/dsh-plugin-start-flow-light.svg" width="100%" alt="dsh-plugin-start workflow: new &lt;name&gt; → package.json / cordis.patch.yml / index.js (optional client.js) → dsh-dev check . / test . / submit .">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-plugin-start-hero-en-dark.webp">
+  <img src="docs/assets/dsh-plugin-start-hero-en-light.webp" width="100%" alt="dsh-plugin-start: one command writes a spec-correct skeleton — package.json, cordis.patch.yml, index.js, README.md, .gitignore and a copied LICENSE under my-plugin/, plus client.js with --client, then a created /abs/path/my-plugin receipt · exit 0">
 </picture>
 
 # dsh-plugin-start
@@ -38,6 +38,11 @@ dsh-start new my-plugin
 `dsh-plugin-start` is a zero-dependency Node CLI: give it a package name and it writes a minimal but current DeepSeek Harness plugin skeleton into the target directory — `package.json` (with `dsh.manifestVersion`, `dsh.bundle.patch`, `engines.dsh`, and the host-enforced `peerDependencies["@deepseek-ai/dsh"]`), `cordis.patch.yml`, an `index.js` with a `ctx.effect` dispose shape, plus `README.md`, `LICENSE`, and `.gitignore`; add `--client` for a `client.js` and a `./client` export.
 
 It only generates: it does not install dependencies, run a host, or publish, and it never claims your plugin is ready. Run `dsh-dev check .` → `dsh-dev test .` → `dsh-dev submit .` afterwards — that is where the skeleton starts proving itself.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-plugin-start-flow-v5-dark.svg">
+  <img src="docs/assets/dsh-plugin-start-flow-v5-light.svg" width="100%" alt="dsh-plugin-start hopper: argv passes three admission gates (argument parsing, package-name regex, target directory), each able to print one reason and exit 1; past them writeFileSync emits the base six files, --client adds client.js plus three package.json rewrites, and both lanes land on one receipt">
+</picture>
 
 ## Three-step setup
 
@@ -215,10 +220,10 @@ cd dsh-plugin-start
 npm test                                  # node --test test/*.test.js
 node bin/dsh-start.js --help              # run the CLI locally
 node bin/dsh-start.js new demo --dir ../demo --yes
-python scripts/gen-readme-assets.py       # regenerate the light/dark SVG pair in docs/assets
+python scripts/gen-readme-assets.py       # regenerate the hero and diagram pair in docs/assets
 ```
 
-No build step and no runtime dependencies: `bin/dsh-start.js` calls `src/start.js` directly, and the tests use `node:test` to cover three branches in temp directories (default skeleton, `--client`, non-empty target rejection). The asset script needs Python plus Pillow and probes for a system CJK font; when none is found it exits instead of drawing tofu boxes. The SVGs contain command and field tokens only, so all five README languages share the same pair.
+No build step and no runtime dependencies: `bin/dsh-start.js` calls `src/start.js` directly, and the tests use `node:test` to cover three branches in temp directories (default skeleton, `--client`, non-empty target rejection). The asset script needs Python plus Pillow and probes for a system CJK font; when none is found it exits instead of drawing tofu boxes. The heroes are rendered as zh / en WebP pairs; the structure diagram carries command and field tokens only, so all five README languages share the same SVG pair.
 
 Topics: `dsh`, `dsh-plugin`, `deepseek-harness`, `scaffold`, `starter`
 

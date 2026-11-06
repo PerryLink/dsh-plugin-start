@@ -1,8 +1,8 @@
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-plugin-start-flow-dark.svg">
-  <img src="docs/assets/dsh-plugin-start-flow-light.svg" width="100%" alt="dsh-plugin-start प्रवाह: new &lt;name&gt; → package.json / cordis.patch.yml / index.js (वैकल्पिक client.js) → dsh-dev check . / test . / submit .">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-plugin-start-hero-en-dark.webp">
+  <img src="docs/assets/dsh-plugin-start-hero-en-light.webp" width="100%" alt="dsh-plugin-start: एक ही कमांड विनिर्देश के अनुरूप ढांचा लिखती है — my-plugin/ में package.json, cordis.patch.yml, index.js, README.md, .gitignore और कॉपी की गई LICENSE, --client के साथ client.js भी, फिर created /abs/path/my-plugin रसीद · exit 0">
 </picture>
 
 # dsh-plugin-start
@@ -38,6 +38,11 @@ dsh-start new my-plugin
 `dsh-plugin-start` एक शून्य-निर्भरता वाला Node CLI है: आप पैकेज का नाम देते हैं और यह लक्ष्य निर्देशिका में न्यूनतम लेकिन मौजूदा DeepSeek Harness प्लगइन विनिर्देश के अनुरूप ढांचा लिख देता है — `package.json` (जिसमें `dsh.manifestVersion`, `dsh.bundle.patch`, `engines.dsh` और होस्ट द्वारा अनिवार्य `peerDependencies["@deepseek-ai/dsh"]` है), `cordis.patch.yml`, `ctx.effect` रिलीज़ आकार वाला `index.js`, साथ में `README.md`, `LICENSE` और `.gitignore`; `--client` के साथ `client.js` और `./client` निर्यात भी।
 
 यह केवल जनरेट करता है: निर्भरताएँ इंस्टॉल नहीं करता, होस्ट नहीं चलाता, प्रकाशित नहीं करता और यह कभी नहीं कहता कि आपका प्लगइन तैयार है। इसके बाद `dsh-dev check .` → `dsh-dev test .` → `dsh-dev submit .` चलाएँ — ढांचा वहीं से उपयोगी साबित होना शुरू करता है।
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-plugin-start-flow-v5-dark.svg">
+  <img src="docs/assets/dsh-plugin-start-flow-v5-light.svg" width="100%" alt="dsh-plugin-start का फ़नल: argv तीन प्रवेश द्वारों से गुज़रता है (आर्ग्युमेंट पार्सिंग, नाम रेगेक्स, लक्ष्य निर्देशिका) और कोई भी एक पंक्ति कारण छापकर exit 1 दे सकता है; द्वार पार होने पर writeFileSync आधार छह फ़ाइलें लिखता है, --client client.js और package.json के तीन बदलाव जोड़ता है, और दोनों लेन एक ही रसीद पर मिलती हैं">
+</picture>
 
 ## तीन चरणों में शुरुआत
 
@@ -215,10 +220,10 @@ cd dsh-plugin-start
 npm test                                  # node --test test/*.test.js
 node bin/dsh-start.js --help              # CLI स्थानीय रूप से चलाएँ
 node bin/dsh-start.js new demo --dir ../demo --yes
-python scripts/gen-readme-assets.py       # docs/assets में हल्का/गहरा SVG जोड़ा फिर बनाएँ
+python scripts/gen-readme-assets.py       # docs/assets में हीरो और आरेख फिर बनाएँ
 ```
 
-कोई बिल्ड चरण नहीं और कोई रनटाइम निर्भरता नहीं: `bin/dsh-start.js` सीधे `src/start.js` कहता है और टेस्ट `node:test` से तीन शाखाएँ अस्थायी निर्देशिकाओं में जाँचते हैं (डिफ़ॉल्ट ढांचा, `--client`, गैर-रिक्त लक्ष्य की अस्वीकृति)। इमेज स्क्रिप्ट को Python और Pillow चाहिए और वह सिस्टम CJK फ़ॉन्ट खोजती है; न मिलने पर खाली बक्से बनाने के बजाय बाहर निकल जाती है। SVG में केवल कमांड और फ़ील्ड tokens हैं, इसलिए पाँचों भाषाओं के README एक ही जोड़ी साझा करते हैं।
+कोई बिल्ड चरण नहीं और कोई रनटाइम निर्भरता नहीं: `bin/dsh-start.js` सीधे `src/start.js` कहता है और टेस्ट `node:test` से तीन शाखाएँ अस्थायी निर्देशिकाओं में जाँचते हैं (डिफ़ॉल्ट ढांचा, `--client`, गैर-रिक्त लक्ष्य की अस्वीकृति)। इमेज स्क्रिप्ट को Python और Pillow चाहिए और वह सिस्टम CJK फ़ॉन्ट खोजती है; न मिलने पर खाली बक्से बनाने के बजाय बाहर निकल जाती है। हीरो zh / en के लिए WebP में बनता है; संरचना आरेख में केवल कमांड और फ़ील्ड tokens हैं, इसलिए पाँचों भाषाओं के README एक ही SVG जोड़ी साझा करते हैं।
 
 Topics: `dsh`, `dsh-plugin`, `deepseek-harness`, `scaffold`, `starter`
 

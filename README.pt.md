@@ -1,8 +1,8 @@
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-plugin-start-flow-dark.svg">
-  <img src="docs/assets/dsh-plugin-start-flow-light.svg" width="100%" alt="fluxo do dsh-plugin-start: new &lt;name&gt; → package.json / cordis.patch.yml / index.js (client.js opcional) → dsh-dev check . / test . / submit .">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-plugin-start-hero-en-dark.webp">
+  <img src="docs/assets/dsh-plugin-start-hero-en-light.webp" width="100%" alt="dsh-plugin-start: um único comando grava um esqueleto conforme à especificação — package.json, cordis.patch.yml, index.js, README.md, .gitignore e uma LICENSE copiada em my-plugin/, além de client.js com --client, e o recibo created /abs/path/my-plugin · exit 0">
 </picture>
 
 # dsh-plugin-start
@@ -38,6 +38,11 @@ dsh-start new my-plugin
 `dsh-plugin-start` é uma CLI Node sem dependências: você informa um nome de pacote e ela grava um esqueleto mínimo, porém atualizado, de plugin do DeepSeek Harness no diretório de destino — `package.json` (com `dsh.manifestVersion`, `dsh.bundle.patch`, `engines.dsh` e o `peerDependencies["@deepseek-ai/dsh"]` exigido pelo host), `cordis.patch.yml`, um `index.js` com a forma de liberação `ctx.effect`, além de `README.md`, `LICENSE` e `.gitignore`; com `--client` acrescenta `client.js` e a exportação `./client`.
 
 Ele só gera: não instala dependências, não executa um host nem publica, e nunca afirma que seu plugin está pronto. Depois rode `dsh-dev check .` → `dsh-dev test .` → `dsh-dev submit .`: é aí que o esqueleto começa a provar que serve.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-plugin-start-flow-v5-dark.svg">
+  <img src="docs/assets/dsh-plugin-start-flow-v5-light.svg" width="100%" alt="funil do dsh-plugin-start: o argv passa por três portões de admissão (análise de argumentos, regex do nome, diretório de destino) e qualquer um pode imprimir um motivo e sair com exit 1; depois deles o writeFileSync grava os seis arquivos base, --client acrescenta client.js e três reescritas no package.json, e as duas faixas convergem em um único recibo">
+</picture>
 
 ## Instalação em três passos
 
@@ -215,10 +220,10 @@ cd dsh-plugin-start
 npm test                                  # node --test test/*.test.js
 node bin/dsh-start.js --help              # executa a CLI localmente
 node bin/dsh-start.js new demo --dir ../demo --yes
-python scripts/gen-readme-assets.py       # regenera o par SVG claro/escuro em docs/assets
+python scripts/gen-readme-assets.py       # regenera o hero e o diagrama em docs/assets
 ```
 
-Sem etapa de build e sem dependências de execução: `bin/dsh-start.js` chama `src/start.js` diretamente e os testes usam `node:test` para cobrir três ramos em diretórios temporários (esqueleto padrão, `--client`, rejeição de destino não vazio). O script de imagens precisa de Python e Pillow e procura uma fonte CJK do sistema; se não encontrar, sai em vez de desenhar quadros vazios. Os SVGs contêm apenas tokens de comandos e campos, então os cinco idiomas do README compartilham o mesmo par.
+Sem etapa de build e sem dependências de execução: `bin/dsh-start.js` chama `src/start.js` diretamente e os testes usam `node:test` para cobrir três ramos em diretórios temporários (esqueleto padrão, `--client`, rejeição de destino não vazio). O script de imagens precisa de Python e Pillow e procura uma fonte CJK do sistema; se não encontrar, sai em vez de desenhar quadros vazios. O hero é gerado como par WebP zh / en; o diagrama estrutural contém apenas tokens de comandos e campos, então os cinco idiomas do README compartilham o mesmo par SVG.
 
 Topics: `dsh`, `dsh-plugin`, `deepseek-harness`, `scaffold`, `starter`
 

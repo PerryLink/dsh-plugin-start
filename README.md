@@ -1,8 +1,8 @@
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-plugin-start-flow-dark.svg">
-  <img src="docs/assets/dsh-plugin-start-flow-light.svg" width="100%" alt="dsh-plugin-start 生成流程：new &lt;name&gt; → package.json / cordis.patch.yml / index.js（可选 client.js）→ dsh-dev check . / test . / submit .">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-plugin-start-hero-zh-dark.webp">
+  <img src="docs/assets/dsh-plugin-start-hero-zh-light.webp" width="100%" alt="dsh-plugin-start：一条命令写出合规骨架——在 my-plugin/ 下生成 package.json、cordis.patch.yml、index.js、README.md、.gitignore 与复制的 LICENSE，--client 时再添 client.js，回执 created /abs/path/my-plugin · exit 0">
 </picture>
 
 # dsh-plugin-start
@@ -38,6 +38,11 @@ dsh-start new my-plugin
 `dsh-plugin-start` 是一个零依赖 Node CLI：给一个包名，它在目标目录写出一个最小但符合当前 DeepSeek Harness 插件规范的骨架——`package.json`（含 `dsh.manifestVersion`、`dsh.bundle.patch`、`engines.dsh` 与宿主强制的 `peerDependencies["@deepseek-ai/dsh"]`）、`cordis.patch.yml`、带 `ctx.effect` 释放形状的 `index.js`，以及 `README.md`、`LICENSE`、`.gitignore`；加 `--client` 再多一个 `client.js` 与 `./client` 导出。
 
 它只做生成：不安装依赖、不跑宿主、不发布，也不声称你的插件已经可用。生成后把 `dsh-dev check .` → `dsh-dev test .` → `dsh-dev submit .` 跑一遍，骨架才算真正起步。
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-plugin-start-flow-v5-dark.svg">
+  <img src="docs/assets/dsh-plugin-start-flow-v5-light.svg" width="100%" alt="dsh-plugin-start 漏斗结构：argv 依次过三道准入闸（参数解析、包名正则、目标目录），任一不过就打印一行原因并 exit 1；过闸后 writeFileSync 写出基础 6 件，--client 时并上 client.js 与 package.json 三处改写，两路汇入同一张回执">
+</picture>
 
 ## 三步上手
 
@@ -217,10 +222,10 @@ cd dsh-plugin-start
 npm test                                  # node --test test/*.test.js
 node bin/dsh-start.js --help              # 本地跑 CLI
 node bin/dsh-start.js new demo --dir ../demo --yes
-python scripts/gen-readme-assets.py       # 重新生成 docs/assets 深浅双版 SVG
+python scripts/gen-readme-assets.py       # 重新生成 docs/assets 的 hero 与结构图
 ```
 
-无构建步骤、无运行时依赖：`bin/dsh-start.js` 直接调用 `src/start.js`，测试用 `node:test` 在临时目录里验证三种分支（默认骨架、`--client`、非空目录拒绝）。配图脚本需要 Python + Pillow，并会探测系统 CJK 字体；找不到字体时脚本直接退出而不是画出方框。生成的 SVG 只含命令与字段 token，五语 README 共用同一对深浅图。
+无构建步骤、无运行时依赖：`bin/dsh-start.js` 直接调用 `src/start.js`，测试用 `node:test` 在临时目录里验证三种分支（默认骨架、`--client`、非空目录拒绝）。配图脚本需要 Python + Pillow，并会探测系统 CJK 字体；找不到字体时脚本直接退出而不是画出方框。hero 出 zh / en 两套 WebP；结构图只含命令与字段 token，五语 README 共用同一对 SVG。
 
 Topics：`dsh`, `dsh-plugin`, `deepseek-harness`, `scaffold`, `starter`
 

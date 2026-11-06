@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="660" viewBox="0 0 1100 660" role="img" aria-label="dsh-plugin-start hopper: a dsh-start argv bar feeds an admission gate ladder (argv, package name, target directory) that narrows into one write step; the mouth forks into two lanes — the six files always written and the --client delta of client.js plus three package.json rewrites — and both lanes converge on one receipt rail. Each of the first three gates can reject with its own message and exit 1.">
+<title>dsh-plugin-start — admission hopper and template confluence</title>
+<defs>
+  <filter id="soft" x="-40%" y="-40%" width="180%" height="200%">
+    <feDropShadow dx="0" dy="9" stdDeviation="12" flood-color="#241d4a" flood-opacity="0.10"/>
+  </filter>
+  <pattern id="dots" width="28" height="28" patternUnits="userSpaceOnUse">
+    <circle cx="1.3" cy="1.3" r="1.3" fill="#ece7f7"/>
+  </pattern>
+  <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M0 0 L10 5 L0 10 z" fill="#4B67B4"/>
+  </marker>
+  <marker id="arrFaint" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M0 0 L10 5 L0 10 z" fill="#8f94a4"/>
+  </marker>
+  <linearGradient id="page" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#f9f6fd"/>
+    <stop offset="1" stop-color="#e4eaf8"/>
+  </linearGradient>
+</defs>
+<rect width="1100" height="660" fill="url(#page)"/>
+<rect width="1100" height="660" fill="url(#dots)" opacity=".6"/>
+
+<text x="44" y="48" fill="#141419" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="30" font-weight="700" >dsh-plugin-start</text>
+<text x="44" y="76" fill="#4d5261" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="15" >new &lt;name&gt; → 三道准入闸 → 基础 6 件 ∪ --client 增量 → 一张回执 · 统一 exit 0 / 1</text>
+<text x="1056" y="46" fill="#8f94a4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" text-anchor="end" >src/start.js · create(name, target, {client})</text>
+<text x="1056" y="66" fill="#8f94a4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" text-anchor="end" >bin/dsh-start.js → main(argv)</text>
+<circle cx="962" cy="99" r="4" fill="#16a34a"/>
+<text x="974" y="103" fill="#16a34a" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" >exit 0 · 照单出货</text>
+<circle cx="962" cy="119" r="4" fill="#cf222e"/>
+<text x="974" y="123" fill="#cf222e" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" >exit 1 · 一票否决</text>
+<path d="M246 148H794L684 352H356Z" fill="#4B67B4" opacity="0.05"/>
+<path d="M246 148L286 216L326 284L356 352" fill="none" stroke="#4B67B4" stroke-width="1.6" opacity=".45"/>
+<path d="M794 148L754 216L714 284L684 352" fill="none" stroke="#4B67B4" stroke-width="1.6" opacity=".45"/>
+<rect x="260" y="92" width="520" height="48" rx="16" fill="#ffffff" stroke="#4B67B4" stroke-width="1.8" filter="url(#soft)"/>
+<text x="280" y="122" fill="#141419" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="15" font-weight="700" >$ dsh-start new &lt;name&gt;</text>
+<text x="762" y="121" fill="#8f94a4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" text-anchor="end" >[--dir &lt;dir&gt;] [--client] [--yes]</text>
+<path d="M520 140V148" stroke="#4B67B4" stroke-width="2" marker-end="url(#arr)"/>
+<rect x="260" y="152" width="520" height="56" rx="16" fill="#ffffff" stroke="#e4e1ee" stroke-width="1.4" filter="url(#soft)"/>
+<rect x="274" y="167" width="26" height="18" rx="6" fill="#4B67B4" opacity=".14"/>
+<text x="278" y="180" fill="#4B67B4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" font-weight="700" letter-spacing="0.6" >01</text>
+<text x="308" y="176" fill="#141419" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14" font-weight="700" >参数解析</text>
+<text x="374.0" y="175" fill="#8f94a4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" >parse(argv)</text>
+<text x="308" y="196" fill="#cf222e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11.5" >unknown option: --foo · unexpected argument: x</text>
+<text x="764" y="176" fill="#cf222e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" text-anchor="end" >exit 1</text>
+<path d="M520 208V216" stroke="#4B67B4" stroke-width="2" marker-end="url(#arr)"/>
+<rect x="300" y="220" width="440" height="56" rx="16" fill="#ffffff" stroke="#e4e1ee" stroke-width="1.4" filter="url(#soft)"/>
+<rect x="314" y="235" width="26" height="18" rx="6" fill="#4B67B4" opacity=".14"/>
+<text x="318" y="248" fill="#4B67B4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" font-weight="700" letter-spacing="0.6" >02</text>
+<text x="348" y="244" fill="#141419" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14" font-weight="700" >包名规则</text>
+<text x="414.0" y="243" fill="#8f94a4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" >NAME_RE</text>
+<text x="348" y="264" fill="#cf222e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11.5" >invalid package name: My_Plugin</text>
+<text x="724" y="244" fill="#cf222e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" text-anchor="end" >exit 1</text>
+<path d="M520 276V284" stroke="#4B67B4" stroke-width="2" marker-end="url(#arr)"/>
+<rect x="340" y="288" width="360" height="56" rx="16" fill="#ffffff" stroke="#e4e1ee" stroke-width="1.4" filter="url(#soft)"/>
+<rect x="354" y="303" width="26" height="18" rx="6" fill="#4B67B4" opacity=".14"/>
+<text x="358" y="316" fill="#4B67B4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" font-weight="700" letter-spacing="0.6" >03</text>
+<text x="388" y="312" fill="#141419" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14" font-weight="700" >目标目录</text>
+<text x="454.0" y="311" fill="#8f94a4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" >create()</text>
+<text x="388" y="332" fill="#cf222e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11.5" >target directory is not empty: /a/b</text>
+<text x="684" y="312" fill="#cf222e" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" text-anchor="end" >exit 1</text>
+<path d="M520 344V352" stroke="#4B67B4" stroke-width="2" marker-end="url(#arr)"/>
+<rect x="370" y="356" width="300" height="56" rx="16" fill="#f6f2fc" stroke="#4B67B4" stroke-width="1.8" filter="url(#soft)"/>
+<rect x="384" y="371" width="26" height="18" rx="6" fill="#4B67B4" opacity=".14"/>
+<text x="388" y="384" fill="#4B67B4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" font-weight="700" letter-spacing="0.6" >04</text>
+<text x="418" y="380" fill="#141419" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14" font-weight="700" >落地写入</text>
+<text x="484.0" y="379" fill="#8f94a4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" >writeFileSync</text>
+<text x="418" y="400" fill="#16a34a" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11.5" >created &lt;abs&gt; · 6 / 7 files</text>
+<text x="654" y="380" fill="#16a34a" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" text-anchor="end" >exit 0</text>
+<rect x="44" y="196" width="196" height="170" rx="18" fill="#f6f2fc" stroke="#e4e1ee" stroke-width="1.4" stroke-dasharray="6 6"/>
+<text x="60" y="220" fill="#4B67B4" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="12" font-weight="700" >它不做什么</text>
+<text x="60" y="244" fill="#4d5261" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" >不装依赖、不启宿主</text>
+<text x="60" y="265" fill="#4d5261" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" >不访问 registry</text>
+<text x="60" y="286" fill="#4d5261" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" >不写全局配置</text>
+<text x="60" y="307" fill="#4d5261" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" >无配置文件 / 无环境变量</text>
+<text x="60" y="328" fill="#4d5261" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" >不生成测试 / CI</text>
+<text x="60" y="349" fill="#4d5261" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" >同步写完即退出</text>
+<rect x="820" y="196" width="236" height="170" rx="18" fill="#f6f2fc" stroke="#e4e1ee" stroke-width="1.4" stroke-dasharray="7 5"/>
+<text x="836" y="220" fill="#4B67B4" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="12" font-weight="700" >生成之后由你跑</text>
+<circle cx="840" cy="245" r="2.6" fill="#4B67B4"/>
+<text x="850" y="249" fill="#141419" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" >dsh-dev check .</text>
+<circle cx="840" cy="267" r="2.6" fill="#4B67B4"/>
+<text x="850" y="271" fill="#141419" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" >dsh-dev test .</text>
+<circle cx="840" cy="289" r="2.6" fill="#4B67B4"/>
+<text x="850" y="293" fill="#141419" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" >dsh-dev submit .</text>
+<text x="836" y="326" fill="#8f94a4" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" >本仓不执行这三步</text>
+<text x="836" y="344" fill="#8f94a4" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" >骨架是起点，不是认证</text>
+<path d="M520 412V424" stroke="#4B67B4" stroke-width="2"/>
+<path d="M288 424H812" stroke="#4B67B4" stroke-width="2" fill="none"/>
+<text x="550" y="417" fill="#4d5261" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" >并集写进同一个目标目录</text>
+<path d="M288 424V434" stroke="#4B67B4" stroke-width="2" marker-end="url(#arr)"/>
+<path d="M812 424V434" stroke="#4B67B4" stroke-width="2" marker-end="url(#arr)"/>
+<rect x="44" y="438" width="488" height="132" rx="18" fill="#ffffff" stroke="#e4e1ee" filter="url(#soft)"/>
+<text x="62" y="462" fill="#4B67B4" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="13" font-weight="700" >基础 · 每次 6 件</text>
+<text x="514" y="462" fill="#8f94a4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" text-anchor="end" >writeFileSync ×5 · copyFileSync ×1</text>
+<rect x="62" y="470" width="216" height="26" rx="9" fill="#f6f2fc" stroke="#eae6f3"/>
+<text x="73" y="488" fill="#141419" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" >package.json</text>
+<text x="267" y="487" fill="#8f94a4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" text-anchor="end" >write</text>
+<rect x="290" y="470" width="216" height="26" rx="9" fill="#f6f2fc" stroke="#eae6f3"/>
+<text x="301" y="488" fill="#141419" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" >cordis.patch.yml</text>
+<text x="495" y="487" fill="#8f94a4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" text-anchor="end" >write</text>
+<rect x="62" y="500" width="216" height="26" rx="9" fill="#f6f2fc" stroke="#eae6f3"/>
+<text x="73" y="518" fill="#141419" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" >index.js</text>
+<text x="267" y="517" fill="#8f94a4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" text-anchor="end" >write</text>
+<rect x="290" y="500" width="216" height="26" rx="9" fill="#f6f2fc" stroke="#eae6f3"/>
+<text x="301" y="518" fill="#141419" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" >README.md</text>
+<text x="495" y="517" fill="#8f94a4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" text-anchor="end" >write</text>
+<rect x="62" y="530" width="216" height="26" rx="9" fill="#f6f2fc" stroke="#eae6f3"/>
+<text x="73" y="548" fill="#141419" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" >.gitignore</text>
+<text x="267" y="547" fill="#8f94a4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" text-anchor="end" >write</text>
+<rect x="290" y="530" width="216" height="26" rx="9" fill="#f6f2fc" stroke="#eae6f3"/>
+<text x="301" y="548" fill="#141419" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" >LICENSE</text>
+<text x="495" y="547" fill="#4B67B4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" text-anchor="end" >copy</text>
+<rect x="568" y="438" width="488" height="132" rx="18" fill="#ffffff" stroke="#4B67B4" stroke-width="1.6" stroke-dasharray="8 5"/>
+<text x="586" y="462" fill="#4B67B4" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="13" font-weight="700" >--client · 再 +1 件 + 3 处改写</text>
+<text x="1038" y="462" fill="#8f94a4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" text-anchor="end" >if (client)</text>
+<rect x="586" y="472" width="164" height="26" rx="9" fill="#f6f2fc" stroke="#4B67B4" stroke-width="1"/>
+<text x="597" y="490" fill="#141419" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" >client.js</text>
+<text x="739" y="489" fill="#4B67B4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" text-anchor="end" >add</text>
+<text x="766" y="490" fill="#8f94a4" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" >新增文件</text>
+<text x="586" y="518" fill="#4B67B4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" font-weight="700" >+</text>
+<text x="600" y="518" fill="#4d5261" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" >exports["./client"] → ./client.js</text>
+<text x="586" y="538" fill="#4B67B4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" font-weight="700" >+</text>
+<text x="600" y="538" fill="#4d5261" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" >files[] += "client.js"</text>
+<text x="586" y="558" fill="#4B67B4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" font-weight="700" >+</text>
+<text x="600" y="558" fill="#4d5261" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" >dsh.client.platform = "web"</text>
+<path d="M288 570V576" stroke="#8f94a4" stroke-width="1.6" stroke-dasharray="4 4" marker-end="url(#arrFaint)"/>
+<path d="M812 570V576" stroke="#8f94a4" stroke-width="1.6" stroke-dasharray="4 4" marker-end="url(#arrFaint)"/>
+<rect x="44" y="580" width="1012" height="48" rx="18" fill="#f6f2fc" stroke="#4B67B4" stroke-width="1.6"/>
+<circle cx="70" cy="604" r="4.5" fill="#16a34a"/>
+<text x="82" y="609" fill="#141419" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" font-weight="700" >created /abs/my-plugin</text>
+<text x="272" y="608" fill="#8f94a4" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" >6 / 7 files</text>
+<text x="376" y="608" fill="#4B67B4" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" font-weight="700" >Next</text>
+<text x="412" y="608" fill="#4d5261" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" >dsh-dev check .  →  dsh-dev test .  →  dsh-dev submit .</text>
+<rect x="964" y="590" width="74" height="28" rx="14" fill="#ffffff" stroke="#16a34a" stroke-width="1.6"/>
+<text x="1001" y="609" fill="#16a34a" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11.5" font-weight="700" text-anchor="middle" >exit 0</text>
+<text x="44" y="650" fill="#8f94a4" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" >任一闸不过：只打印一行原因并 exit 1，目标目录保持原样</text>
+<text x="1056" y="650" fill="#8f94a4" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" text-anchor="end" >零依赖 · 无网络 · 无交互 · 同步写盘</text>
+</svg>
