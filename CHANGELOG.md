@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.2.4 (2026-11-08)
+- Generated README gains an optional, read-only GitHub Actions snippet using `PerryLink/dsh-check-action@v1` (advisory, no comment, no required check).
+
 ## 0.2.3 (2026-11-08)
 - Generated README, CLI hints, and diagrams no longer tell users to run the non-existent `dsh-dev check/test/submit`, `dsh-ready`, and `entry-validate` commands.
 - The next-step path is now executable: the read-only `dsh-standards@1.6.9` ENTRY check, `npm pack --dry-run`, and an install smoke via `@deepseek-ai/dsh plugin --profile demo add .`.

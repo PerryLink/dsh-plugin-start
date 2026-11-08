@@ -143,6 +143,27 @@ npx -y @deepseek-ai/dsh plugin --profile demo add .
 
 The static check covers the ENTRY layer only: it does not install or run the
 package, and it is not a certification or a host-install result.
+
+## Optional CI
+
+The action is advisory: it posts no required check unless you set \`fail-on\`.
+Keep the workflow read-only.
+
+\`\`\`yaml
+name: entry-check
+on: [pull_request]
+permissions:
+  contents: read
+jobs:
+  entry:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: PerryLink/dsh-check-action@v1
+        with:
+          comment: false
+          fail-on: none
+\`\`\`
 `
 }
 
