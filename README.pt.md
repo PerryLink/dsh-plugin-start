@@ -37,7 +37,7 @@ dsh-start new my-plugin
 
 `dsh-plugin-start` é uma CLI Node sem dependências: você informa um nome de pacote e ela grava um esqueleto mínimo, porém atualizado, de plugin do DeepSeek Harness no diretório de destino — `package.json` (com `dsh.manifestVersion`, `dsh.bundle.patch`, `engines.dsh` e o `peerDependencies["@deepseek-ai/dsh"]` exigido pelo host), `cordis.patch.yml`, um `index.js` com a forma de liberação `ctx.effect`, além de `README.md`, `LICENSE` e `.gitignore`; com `--client` acrescenta `client.js` e a exportação `./client`.
 
-Ele só gera: não instala dependências, não executa um host nem publica, e nunca afirma que seu plugin está pronto. Depois rode `dsh-dev check .` → `dsh-dev test .` → `dsh-dev submit .`: é aí que o esqueleto começa a provar que serve.
+Ele só gera: não instala dependências, não executa um host nem publica, e nunca afirma que seu plugin está pronto. Rode `npx -y dsh-standards@1.6.9 check . --scope entry --entry-claim static --no-exec` para uma checagem estática somente leitura, depois `npm pack --dry-run` e `npx -y @deepseek-ai/dsh plugin --profile demo add .` para empacotamento e um teste de instalação: é aí que o esqueleto começa a provar que serve.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-plugin-start-flow-v5-dark.svg">
@@ -70,9 +70,9 @@ Ele só gera: não instala dependências, não executa um host nem publica, e nu
 
    ```sh
    cd my-plugin
-   dsh-dev check .
-   dsh-dev test .
-   dsh-dev submit .
+   npx -y dsh-standards@1.6.9 check . --scope entry --entry-claim static --no-exec
+   npm pack --dry-run
+   npx -y @deepseek-ai/dsh plugin --profile demo add .
    ```
 
    Em caso de sucesso ele imprime `created <caminho absoluto>` e a lista de arquivos gravados, saindo com `0`; argumentos inválidos ou um diretório sem permissão de escrita saem com `1` e o motivo específico.
@@ -162,7 +162,7 @@ Declarações que o gerador fixa em `package.json` (edite o arquivo gerado se pr
 <details>
 <summary>Posso instalar e usar o plugin gerado imediatamente?</summary>
 
-Ainda não. O gerador só deixa a forma dos arquivos correta; ele não instala dependências, não executa um host nem verifica o comportamento do plugin. O README gerado mostra o caminho: adicione `repository`, `homepage` e o topic `dsh-plugin`, rode `dsh-dev check .` e `dsh-dev test .`, rode `dsh-ready .` até sumirem todas as falhas, passe uma instalação real no host para `entry-validate --host-evidence` e só então fale em publicar. O esqueleto é um ponto de partida, não uma certificação nem um resultado de instalação no host.
+Ainda não. O gerador só deixa a forma dos arquivos correta; ele não instala dependências, não executa um host nem verifica o comportamento do plugin. O README gerado mostra o caminho: adicione `repository`, `homepage` e o topic `dsh-plugin`, rode a checagem estática acima e `npm pack --dry-run`, instale o checkout em um profile temporário e inicie o host uma vez; só então fale em publicar. O esqueleto é um ponto de partida, não uma certificação nem um resultado de instalação no host.
 
 </details>
 
@@ -176,7 +176,7 @@ Se faltar, é criado recursivamente; se existir mas estiver vazio, pode receber 
 <details>
 <summary>Ele instala dependências, inicia um host ou publica por mim?</summary>
 
-Não para as três coisas. É um gerador de arquivos puro: sem requisições de rede, sem processos filhos, sem contato com o registry do npm e sem gravar configuração global. A geração é síncrona e termina assim que grava os arquivos; `dsh-dev` e `dsh-ready` são sempre executados por você, de forma explícita.
+Não para as três coisas. É um gerador de arquivos puro: sem requisições de rede, sem processos filhos, sem contato com o registry do npm e sem gravar configuração global. A geração é síncrona e termina assim que grava os arquivos; a checagem estática e o teste de instalação são sempre executados por você, de forma explícita.
 
 </details>
 
@@ -203,7 +203,7 @@ Só é aceito `^[a-z0-9][a-z0-9-]*$`: letras minúsculas, dígitos e hífens, co
 
 ## Limitações conhecidas
 
-- **Gera, não verifica.** Os campos e arquivos do modelo têm presença garantida, mas nada garante que o plugin gerado carregue, passe nas verificações ou seja utilizável; `dsh-dev check .` é o primeiro portão real.
+- **Gera, não verifica.** Os campos e arquivos do modelo têm presença garantida, mas nada garante que o plugin gerado carregue, passe nas verificações ou seja utilizável; `npx -y dsh-standards@1.6.9 check . --scope entry --entry-claim static --no-exec` é o primeiro portão real.
 - **Não é certificação, auditoria ou aval.** Uma geração bem-sucedida não significa aprovação oficial, entrada em um mercado ou instalação bem-sucedida no host: cada coisa exige evidência e processo próprios.
 - **A faixa de versões é fixa.** `engines.dsh` e `peerDependencies` gerados ficam em `>=0.2.0 <0.3.0`; quando a especificação do host mudar, edite o `package.json` gerado à mão ou espere uma nova versão desta ferramenta.
 - **Sem modo de sobrescrita.** Um destino não vazio é rejeitado; não há `--force`, mesclagem nem backup. Resolva o diretório antigo antes de regenerar.

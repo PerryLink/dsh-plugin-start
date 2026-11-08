@@ -54,6 +54,7 @@ function pkgJson(name, client) {
     exports: { '.': './index.js' },
     files: ['index.js', 'cordis.patch.yml', 'README.md', 'LICENSE'],
     engines: { node: '>=20', dsh: '>=0.2.0 <0.3.0' },
+    scripts: { check: 'npx -y dsh-standards@1.6.9 check . --scope entry --entry-claim static --no-exec' },
     peerDependencies: { '@deepseek-ai/dsh': '>=0.2.0 <0.3.0' },
     dsh: {
       manifestVersion: 1,
@@ -123,19 +124,25 @@ the checker's hint into a failure.
 ## Next
 
 \`\`\`sh
-dsh-dev check .
-${client ? '# check the client export and platform\n' : ''}dsh-dev test .
-dsh-dev submit .
+# read-only static ENTRY check; requires Node >= 24.9
+npx -y dsh-standards@1.6.9 check . --scope entry --entry-claim static --no-exec
+
+# packaging check: confirm which files npm will publish
+npm pack --dry-run
+
+# install smoke: link this checkout into a throwaway profile
+npx -y @deepseek-ai/dsh plugin --profile demo add .
 \`\`\`
 
 ## Publish
 
 1. Add a \`repository\`, \`homepage\`, and a \`dsh-plugin\` GitHub topic.
-2. Run \`dsh-ready .\` and fix every fail.
-3. Feed a real host install to \`entry-validate --host-evidence\`.
+2. Run the static check above and read the report; fix what it flags.
+3. Run the install smoke above, start the host once, and confirm the plugin loads.
 4. Publish with npm and submit to the market you use.
 
-This skeleton is a start, not a certification or a host-install result.
+The static check covers the ENTRY layer only: it does not install or run the
+package, and it is not a certification or a host-install result.
 `
 }
 
@@ -200,9 +207,8 @@ export async function main(argv, options = {}) {
     for (const file of result.files) console.log(`  ${file}`)
     console.log('\nNext:')
     console.log(`  cd ${path.relative(process.cwd(), result.dir) || '.'}`)
-    console.log('  dsh-dev check .')
-    console.log('  dsh-dev test .')
-    console.log('  dsh-dev submit .')
+    console.log('  npx -y dsh-standards@1.6.9 check . --scope entry --entry-claim static --no-exec')
+    console.log('  npx -y @deepseek-ai/dsh plugin --profile demo add .')
     return 0
   } catch (error) {
     console.error(error.message)

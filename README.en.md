@@ -37,7 +37,7 @@ dsh-start new my-plugin
 
 `dsh-plugin-start` is a zero-dependency Node CLI: give it a package name and it writes a minimal but current DeepSeek Harness plugin skeleton into the target directory — `package.json` (with `dsh.manifestVersion`, `dsh.bundle.patch`, `engines.dsh`, and the host-enforced `peerDependencies["@deepseek-ai/dsh"]`), `cordis.patch.yml`, an `index.js` with a `ctx.effect` dispose shape, plus `README.md`, `LICENSE`, and `.gitignore`; add `--client` for a `client.js` and a `./client` export.
 
-It only generates: it does not install dependencies, run a host, or publish, and it never claims your plugin is ready. Run `dsh-dev check .` → `dsh-dev test .` → `dsh-dev submit .` afterwards — that is where the skeleton starts proving itself.
+It only generates: it does not install dependencies, run a host, or publish, and it never claims your plugin is ready. Run `npx -y dsh-standards@1.6.9 check . --scope entry --entry-claim static --no-exec` for a read-only static check, then `npm pack --dry-run` and `npx -y @deepseek-ai/dsh plugin --profile demo add .` for packaging and an install smoke — that is where the skeleton starts proving itself.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-plugin-start-flow-v5-dark.svg">
@@ -70,9 +70,9 @@ It only generates: it does not install dependencies, run a host, or publish, and
 
    ```sh
    cd my-plugin
-   dsh-dev check .
-   dsh-dev test .
-   dsh-dev submit .
+   npx -y dsh-standards@1.6.9 check . --scope entry --entry-claim static --no-exec
+   npm pack --dry-run
+   npx -y @deepseek-ai/dsh plugin --profile demo add .
    ```
 
    On success it prints `created <absolute path>` plus the list of written files and exits `0`; bad arguments or an unwritable directory exit `1` with the specific reason.
@@ -162,7 +162,7 @@ Declarations the generator hard-codes into `package.json` (edit the generated fi
 <details>
 <summary>Can I install and use the generated plugin right away?</summary>
 
-Not yet. The generator only makes the file shape correct; it does not install dependencies, run a host, or verify plugin behavior. The generated README lists the path forward: add `repository`, `homepage`, and the `dsh-plugin` topic, run `dsh-dev check .` and `dsh-dev test .`, run `dsh-ready .` until every fail is gone, feed a real host install to `entry-validate --host-evidence`, and only then talk about publishing. The skeleton is a start, not a certification or a host-install result.
+Not yet. The generator only makes the file shape correct; it does not install dependencies, run a host, or verify plugin behavior. The generated README lists the path forward: add `repository`, `homepage`, and the `dsh-plugin` topic, run the static ENTRY check above and `npm pack --dry-run`, then install the checkout into a throwaway profile and start the host once; only then talk about publishing. The skeleton is a start, not a certification or a host-install result.
 
 </details>
 
@@ -176,7 +176,7 @@ Missing means it is created recursively; existing but empty means it can be writ
 <details>
 <summary>Does it install dependencies, start a host, or publish for me?</summary>
 
-No to all three. It is a pure file generator: no network requests, no child processes, no npm registry contact, no global config writes. Generation is synchronous and exits as soon as the files are written; `dsh-dev` and `dsh-ready` are always run by you, explicitly.
+No to all three. It is a pure file generator: no network requests, no child processes, no npm registry contact, no global config writes. Generation is synchronous and exits as soon as the files are written; the static check and the install smoke are always run by you, explicitly.
 
 </details>
 
@@ -203,7 +203,7 @@ Only `^[a-z0-9][a-z0-9-]*$` is accepted: lowercase letters, digits, and hyphens,
 
 ## Known limitations
 
-- **It generates, it does not verify.** Template fields and files are guaranteed present, but nothing guarantees the generated plugin loads, passes checks, or is usable in any way; `dsh-dev check .` is the first real gate.
+- **It generates, it does not verify.** Template fields and files are guaranteed present, but nothing guarantees the generated plugin loads, passes checks, or is usable in any way; `npx -y dsh-standards@1.6.9 check . --scope entry --entry-claim static --no-exec` is the first real gate.
 - **Not a certification, audit, or endorsement.** A successful generation does not mean official approval, market listing, or a successful host install — each of those needs separate evidence and process.
 - **The version range is hard-coded.** Generated `engines.dsh` and `peerDependencies` are fixed at `>=0.2.0 <0.3.0`; when the host spec moves, edit the generated `package.json` by hand or wait for a new release of this tool.
 - **No overwrite mode.** A non-empty target is rejected; there is no `--force`, merge, or backup. Deal with the old directory before regenerating.

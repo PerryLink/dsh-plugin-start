@@ -37,7 +37,7 @@ dsh-start new my-plugin
 
 `dsh-plugin-start` 是一个零依赖 Node CLI：给一个包名，它在目标目录写出一个最小但符合当前 DeepSeek Harness 插件规范的骨架——`package.json`（含 `dsh.manifestVersion`、`dsh.bundle.patch`、`engines.dsh` 与宿主强制的 `peerDependencies["@deepseek-ai/dsh"]`）、`cordis.patch.yml`、带 `ctx.effect` 释放形状的 `index.js`，以及 `README.md`、`LICENSE`、`.gitignore`；加 `--client` 再多一个 `client.js` 与 `./client` 导出。
 
-它只做生成：不安装依赖、不跑宿主、不发布，也不声称你的插件已经可用。生成后把 `dsh-dev check .` → `dsh-dev test .` → `dsh-dev submit .` 跑一遍，骨架才算真正起步。
+它只做生成：不安装依赖、不跑宿主、不发布，也不声称你的插件已经可用。生成后先跑 `npx -y dsh-standards@1.6.9 check . --scope entry --entry-claim static --no-exec` 做只读静态检查，再跑 `npm pack --dry-run` 与 `npx -y @deepseek-ai/dsh plugin --profile demo add .` 做打包/安装冒烟，骨架才算真正起步。
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-plugin-start-flow-v5-dark.svg">
@@ -72,9 +72,9 @@ dsh-start new my-plugin
 
    ```sh
    cd my-plugin
-   dsh-dev check .
-   dsh-dev test .
-   dsh-dev submit .
+   npx -y dsh-standards@1.6.9 check . --scope entry --entry-claim static --no-exec
+   npm pack --dry-run
+   npx -y @deepseek-ai/dsh plugin --profile demo add .
    ```
 
    生成成功时命令会打印 `created <绝对路径>` 和写入的文件清单，退出码为 `0`；参数有误或目录不可写时退出码为 `1`，并打印具体原因。
@@ -164,7 +164,7 @@ dsh-start new my-plugin
 <details>
 <summary>生成完就能直接安装使用了吗？</summary>
 
-还不能。生成器只负责“文件形状正确”，不安装依赖、不跑宿主，也不验证插件行为。生成物的 README 已列出后续路径：补 `repository` / `homepage` / `dsh-plugin` topic，运行 `dsh-dev check .`、`dsh-dev test .`，再跑 `dsh-ready .` 修掉所有 fail，把真实宿主安装结果喂给 `entry-validate --host-evidence`，最后才谈发布。骨架是起点，不是认证或宿主安装结果。
+还不能。生成器只负责“文件形状正确”，不安装依赖、不跑宿主，也不验证插件行为。生成物的 README 已列出后续路径：补 `repository` / `homepage` / `dsh-plugin` topic，跑上面的静态 ENTRY 检查与 `npm pack --dry-run`，再把 checkout 装进临时 profile、启动一次宿主确认能加载，最后才谈发布。骨架是起点，不是认证或宿主安装结果。
 
 </details>
 
@@ -178,7 +178,7 @@ dsh-start new my-plugin
 <details>
 <summary>它会替我安装依赖、启动宿主或发布吗？</summary>
 
-都不会。它是纯文件生成器：没有网络请求，没有子进程，不碰 npm registry，也不写全局配置。生成本身是同步的，写完即退出；后续的 `dsh-dev` 与 `dsh-ready` 都由你显式执行。
+都不会。它是纯文件生成器：没有网络请求，没有子进程，不碰 npm registry，也不写全局配置。生成本身是同步的，写完即退出；静态检查与安装冒烟都由你显式执行。
 
 </details>
 
@@ -205,7 +205,7 @@ dsh-start new my-plugin
 
 ## 已知限制
 
-- **只生成，不校验。** 它保证模板字段与文件齐全，不保证生成的插件能加载、能通过检查或以任何方式可用；`dsh-dev check .` 才是第一道真实门禁。
+- **只生成，不校验。** 它保证模板字段与文件齐全，不保证生成的插件能加载、能通过检查或以任何方式可用；`npx -y dsh-standards@1.6.9 check . --scope entry --entry-claim static --no-exec` 才是第一道真实门禁。
 - **不是认证、审计或背书。** 生成成功不代表官方认可、市场收录或宿主安装成功；这些都需要另外的证据与流程。
 - **版本区间是写死的。** 生成物固定 `engines.dsh` 与 `peerDependencies` 为 `>=0.2.0 <0.3.0`；宿主规范变化后需要手动改生成后的 `package.json`，或等本工具发新版本。
 - **没有覆盖模式。** 目标目录非空即拒绝，不提供 `--force`、合并或备份；重复生成前请自行处理旧目录。

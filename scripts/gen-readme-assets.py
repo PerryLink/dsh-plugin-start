@@ -192,7 +192,7 @@ HERO = {
                ('仅 --client', 'sans')],
         receipt='created /abs/path/my-plugin',
         files='6 files',
-        nextline='Next:   dsh-dev check .   →   dsh-dev test .   →   dsh-dev submit .',
+        nextline='Next:   dsh-standards check .   →   npm pack --dry-run   →   dsh plugin add .',
     ),
     'en': dict(
         kicker='DeepSeek Harness · plugin scaffold generator',
@@ -216,7 +216,7 @@ HERO = {
                ('--client only', 'sans')],
         receipt='created /abs/path/my-plugin',
         files='6 files',
-        nextline='Next:   dsh-dev check .   →   dsh-dev test .   →   dsh-dev submit .',
+        nextline='Next:   dsh-standards check .   →   npm pack --dry-run   →   dsh plugin add .',
     ),
 }
 
@@ -397,7 +397,7 @@ CLIENT_DELTA = ['exports["./client"] → ./client.js',
                 'dsh.client.platform = "web"']
 NOT_DO = ['不装依赖、不启宿主', '不访问 registry', '不写全局配置',
           '无配置文件 / 无环境变量', '不生成测试 / CI', '同步写完即退出']
-NEXT_CMDS = ['dsh-dev check .', 'dsh-dev test .', 'dsh-dev submit .']
+NEXT_CMDS = ['dsh-standards check .', 'npm pack --dry-run', 'dsh plugin add .']
 
 
 def t(x, y, txt, size, fill, fam=MONO, weight=None, anchor=None,
@@ -613,7 +613,7 @@ def flow_svg(skin: str) -> None:
                weight='700'))
     p.append(t(272, 608, '6 / 7 files', 11, s['faint']))
     p.append(t(376, 608, 'Next', 11, s['accent'], fam=SANS, weight='700'))
-    nxt = 'dsh-dev check .  →  dsh-dev test .  →  dsh-dev submit .'
+    nxt = 'dsh-standards check .  →  npm pack --dry-run  →  dsh plugin add .'
     fit_svg('receipt next', nxt, 11, 560)
     p.append(t(412, 608, nxt, 11, s['sub']))
     p.append(f'<rect x="964" y="590" width="74" height="28" rx="14" '
