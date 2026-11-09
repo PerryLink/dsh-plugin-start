@@ -238,3 +238,8 @@ Topics：`dsh`, `dsh-plugin`, `deepseek-harness`, `scaffold`, `starter`
 [LICENSE](LICENSE)（Apache License 2.0）© 2026 dsh-plugin-start contributors
 
 <p align="center"><sub>Apache-2.0 · 社区工具，与 DeepSeek 无关。</sub></p>
+
+## 工具链与上游（事实，2026-11）
+
+- 本工具是工具链的生成器入口：生成物自带 `dsh-standards` ENTRY 检查与 advisory CI 片段。
+- 上游：`dsh-plugin-hub` main 已合入版本感知的 npm 元数据校验（[`4f3a560`](https://github.com/dshplugin/dsh-plugin-hub/commit/4f3a560)，2026-11-09）；范围仅安装侧 npm 元数据，不运行 ENTRY，也不构成背书。
