@@ -1,11 +1,14 @@
 # Changelog
 
+## 0.2.5 (2026-11-14)
+- Generated README/CLI next-step uses `dsh-standards@1.6.10` (was 1.6.9); existing generated plugins are unaffected.
+
 ## 0.2.4 (2026-11-08)
 - Generated README gains an optional, read-only GitHub Actions snippet using `PerryLink/dsh-check-action@v1` (advisory, no comment, no required check).
 
 ## 0.2.3 (2026-11-08)
 - Generated README, CLI hints, and diagrams no longer tell users to run the non-existent `dsh-dev check/test/submit`, `dsh-ready`, and `entry-validate` commands.
-- The next-step path is now executable: the read-only `dsh-standards@1.6.9` ENTRY check, `npm pack --dry-run`, and an install smoke via `@deepseek-ai/dsh plugin --profile demo add .`.
+- The next-step path is now executable: the read-only `dsh-standards@1.6.10` ENTRY check, `npm pack --dry-run`, and an install smoke via `@deepseek-ai/dsh plugin --profile demo add .`.
 - Generated `package.json` gains an optional `check` script that runs the same static ENTRY check; it is not wired into `prepublishOnly` because the checker requires Node >= 24.9.
 
 ## 0.2.2 (2026-11-03)

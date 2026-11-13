@@ -37,7 +37,7 @@ dsh-start new my-plugin
 
 `dsh-plugin-start` es una CLI Node sin dependencias: le das un nombre de paquete y escribe un esqueleto mínimo pero actual de plugin de DeepSeek Harness en el directorio de destino — `package.json` (con `dsh.manifestVersion`, `dsh.bundle.patch`, `engines.dsh` y el `peerDependencies["@deepseek-ai/dsh"]` que impone el host), `cordis.patch.yml`, un `index.js` con la forma de liberación `ctx.effect`, más `README.md`, `LICENSE` y `.gitignore`; con `--client` añade `client.js` y la exportación `./client`.
 
-Solo genera: no instala dependencias, no ejecuta un host ni publica, y nunca afirma que tu plugin esté listo. Ejecuta `npx -y dsh-standards@1.6.9 check . --scope entry --entry-claim static --no-exec` para una comprobación estática de solo lectura, luego `npm pack --dry-run` y `npx -y @deepseek-ai/dsh plugin --profile demo add .` para el empaquetado y una prueba de instalación: ahí es donde el esqueleto empieza a demostrar que sirve.
+Solo genera: no instala dependencias, no ejecuta un host ni publica, y nunca afirma que tu plugin esté listo. Ejecuta `npx -y dsh-standards@1.6.10 check . --scope entry --entry-claim static --no-exec` para una comprobación estática de solo lectura, luego `npm pack --dry-run` y `npx -y @deepseek-ai/dsh plugin --profile demo add .` para el empaquetado y una prueba de instalación: ahí es donde el esqueleto empieza a demostrar que sirve.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-plugin-start-flow-v5-dark.svg">
@@ -70,7 +70,7 @@ Solo genera: no instala dependencias, no ejecuta un host ni publica, y nunca afi
 
    ```sh
    cd my-plugin
-   npx -y dsh-standards@1.6.9 check . --scope entry --entry-claim static --no-exec
+   npx -y dsh-standards@1.6.10 check . --scope entry --entry-claim static --no-exec
    npm pack --dry-run
    npx -y @deepseek-ai/dsh plugin --profile demo add .
    ```
@@ -203,7 +203,7 @@ Solo se acepta `^[a-z0-9][a-z0-9-]*$`: letras minúsculas, dígitos y guiones, e
 
 ## Limitaciones conocidas
 
-- **Genera, no verifica.** Se garantiza que los campos y archivos de la plantilla están presentes, pero nada garantiza que el plugin generado cargue, pase las comprobaciones o sea utilizable; `npx -y dsh-standards@1.6.9 check . --scope entry --entry-claim static --no-exec` es la primera puerta real.
+- **Genera, no verifica.** Se garantiza que los campos y archivos de la plantilla están presentes, pero nada garantiza que el plugin generado cargue, pase las comprobaciones o sea utilizable; `npx -y dsh-standards@1.6.10 check . --scope entry --entry-claim static --no-exec` es la primera puerta real.
 - **No es una certificación, auditoría ni respaldo.** Una generación correcta no significa aprobación oficial, inclusión en un mercado ni instalación correcta en el host: cada cosa exige pruebas y procesos aparte.
 - **El rango de versiones está fijado.** `engines.dsh` y `peerDependencies` generados se fijan en `>=0.2.0 <0.3.0`; cuando cambie la especificación del host, edita el `package.json` generado a mano o espera una nueva versión de esta herramienta.
 - **Sin modo de sobrescritura.** Un destino no vacío se rechaza; no hay `--force`, fusión ni copia de seguridad. Resuelve el directorio antiguo antes de regenerar.
