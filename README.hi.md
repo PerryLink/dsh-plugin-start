@@ -7,7 +7,7 @@
 
 # dsh-plugin-start
 
-**एक कमांड ऐसा DeepSeek Harness प्लगइन ढांचा बनाता है जो होस्ट विनिर्देश की जाँच पास करता है।**
+**एक कमांड वर्तमान DSH प्लगइन मैनिफ़ेस्ट के आकार वाला DeepSeek Harness प्लगइन ढांचा बनाता है।**
 
 कोई निर्भरता इंस्टॉल नहीं, होस्ट नहीं चलता, कुछ प्रकाशित नहीं — बस लक्ष्य निर्देशिका में मौजूदा विनिर्देश के अनुसार `package.json`, `cordis.patch.yml`, `index.js` और वैकल्पिक रूप से `client.js` लिखता है।
 
@@ -37,7 +37,7 @@ dsh-start new my-plugin
 
 `dsh-plugin-start` एक शून्य-निर्भरता वाला Node CLI है: आप पैकेज का नाम देते हैं और यह लक्ष्य निर्देशिका में न्यूनतम लेकिन मौजूदा DeepSeek Harness प्लगइन विनिर्देश के अनुरूप ढांचा लिख देता है — `package.json` (जिसमें `dsh.manifestVersion`, `dsh.bundle.patch`, `engines.dsh` और होस्ट द्वारा अनिवार्य `peerDependencies["@deepseek-ai/dsh"]` है), `cordis.patch.yml`, `ctx.effect` रिलीज़ आकार वाला `index.js`, साथ में `README.md`, `LICENSE` और `.gitignore`; `--client` के साथ `client.js` और `./client` निर्यात भी।
 
-यह केवल जनरेट करता है: निर्भरताएँ इंस्टॉल नहीं करता, होस्ट नहीं चलाता, प्रकाशित नहीं करता और यह कभी नहीं कहता कि आपका प्लगइन तैयार है। केवल-पढ़ने वाली स्थिर जाँच के लिए `npx -y dsh-standards@1.6.10 check . --scope entry --entry-claim static --no-exec` चलाएँ, फिर पैकेजिंग और इंस्टॉल स्मोक के लिए `npm pack --dry-run` और `npx -y @deepseek-ai/dsh plugin --profile demo add .` — ढांचा वहीं से उपयोगी साबित होना शुरू करता है।
+यह केवल जनरेट करता है: निर्भरताएँ इंस्टॉल नहीं करता, होस्ट नहीं चलाता, प्रकाशित नहीं करता और यह कभी नहीं कहता कि आपका प्लगइन तैयार है। केवल-पढ़ने वाली स्थिर जाँच के लिए `npx -y dsh-standards@1.6.11 check . --scope entry --entry-claim static --no-exec --host-version 0.2.2-rc.3` चलाएँ, फिर पैकेजिंग और इंस्टॉल स्मोक के लिए `npm pack --dry-run` और `dsh plugin --profile demo add .` — ढांचा वहीं से उपयोगी साबित होना शुरू करता है।
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-plugin-start-flow-v5-dark.svg">
@@ -56,7 +56,7 @@ dsh-start new my-plugin
    dsh-start new my-plugin
    ```
 
-   Node.js `>=20` आवश्यक है; पैकेज में कोई रनटाइम निर्भरता नहीं है।
+   CLI स्वयं के लिए Node.js `>=20` आवश्यक है (शून्य निर्भरता); बना ढांचा `engines.node: ">=24.9.0"` घोषित करता है, क्योंकि DSH 0.2.2 लाइन के लिए Node `>=24.9.0` चाहिए।
 
 2. **ढांचा बनाएँ** (`--dir` लक्ष्य बदलता है, `--client` ब्राउज़र हिस्सा जोड़ता है):
 
@@ -70,9 +70,9 @@ dsh-start new my-plugin
 
    ```sh
    cd my-plugin
-   npx -y dsh-standards@1.6.10 check . --scope entry --entry-claim static --no-exec
+   npx -y dsh-standards@1.6.11 check . --scope entry --entry-claim static --no-exec --host-version 0.2.2-rc.3
    npm pack --dry-run
-   npx -y @deepseek-ai/dsh plugin --profile demo add .
+   dsh plugin --profile demo add .
    ```
 
    सफल होने पर यह `created <पूर्ण पथ>` और लिखी गई फ़ाइलों की सूची दिखाता है और `0` के साथ बाहर निकलता है; गलत आर्ग्युमेंट या लिखने योग्य न होने पर `1` और स्पष्ट कारण।
@@ -84,7 +84,7 @@ dsh-start new my-plugin
 - **एक कमांड में पूरा ढांचा** — `package.json`, `cordis.patch.yml`, `index.js`, `README.md`, `LICENSE` और `.gitignore` लिखता है; `--client` के साथ `client.js` भी।
 - **होस्ट विनिर्देश के फ़ील्ड पहले से भरे** — मैनिफ़ेस्ट संस्करण, बंडल पैच पथ, `engines.dsh` और `peerDependencies` एक ही जनरेटर से आते हैं, इसलिए पुराने टेम्पलेट से नकल करते समय कोई फ़ील्ड नहीं छूटती।
 - **साफ़ रिलीज़ आकार** — `apply(ctx)` संसाधनों को `ctx.effect(() => () => {})` में लपेटता है, ताकि रोकना या हॉट-रीलोड उन्हें वापस ले सके।
-- **वैकल्पिक ब्राउज़र हिस्सा** — `--client` `client.js` लिखता है और साथ ही `exports["./client"]`, `files` तथा `dsh.client.platform = "web"` अपडेट करता है।
+- **वैकल्पिक ब्राउज़र हिस्सा** — `--client` `client.js` लिखता है और साथ ही `exports["./client"]`, `files` तथा `dsh.client.platform = "web"` अपडेट करता है; `cordis.patch.yml` की पंक्ति में `name` बेयर पैकेज नाम ही रहता है (`./index.js` जैसा सापेक्ष नाम ब्राउज़र आधे से नहीं जुड़ता)।
 - **शुद्ध फ़ाइल जनरेशन, बिना नेटवर्क, बिना प्रश्न** — कोई निर्भरता डाउनलोड नहीं, registry तक पहुँच नहीं, वैश्विक स्थिति नहीं; फ़ाइलें एक बार लिखी जाती हैं और विफलता गैर-शून्य एक्ज़िट कोड पर समाप्त होती है।
 
 ### कमांड
@@ -101,8 +101,8 @@ dsh-start new my-plugin
 
 | फ़ाइल | मुख्य सामग्री |
 |---|---|
-| `package.json` | `version: "0.1.0"`, `type: "module"`, `engines.node: ">=20"`, `engines.dsh: ">=0.2.0 <0.3.0"`, `dsh.manifestVersion: 1`, `dsh.bundle.patch: "./cordis.patch.yml"`, `dsh.capabilities` / `dsh.labels` खाली arrays |
-| `cordis.patch.yml` | एक `insert` प्रविष्टि जो `<name>` को `./index.js` से जोड़ती है |
+| `package.json` | `version: "0.1.0"`, `type: "module"`, `engines.node: ">=24.9.0"`, `engines.dsh: ">=0.2.2-0 <0.3.0"`, `dsh.manifestVersion: 1`, `dsh.bundle.patch: "./cordis.patch.yml"`, `dsh.capabilities` / `dsh.labels` खाली arrays |
+| `cordis.patch.yml` | एक `insert` पंक्ति जिसका `name` पैकेज का बेयर नाम `<name>` है (`./index.js` नहीं); यही पंक्ति होस्ट के ब्राउज़र आधे को जोड़ने और bundle-smoke G4 की पूर्व-शर्त भी है |
 | `index.js` | `name`, `inject = []` और `apply(ctx)` निर्यात करता है; संसाधन `ctx.effect` के अंदर रहते हैं |
 | `client.js` | केवल `--client` के साथ: `name` और खाली `apply()` निर्यात करता है |
 | `README.md` | घोषणा नोट्स, अगले कमांड और बने प्लगइन की प्रकाशन सूची |
@@ -151,8 +151,8 @@ dsh-start new my-plugin
 | `dsh.bundle.patch` | `./cordis.patch.yml` |
 | `dsh.capabilities` | `[]` (स्पष्ट रूप से "कोई क्षमता नहीं") |
 | `dsh.labels` | `[]` |
-| `engines.dsh` | `>=0.2.0 <0.3.0` |
-| `peerDependencies["@deepseek-ai/dsh"]` | `>=0.2.0 <0.3.0` |
+| `engines.dsh` | `>=0.2.2-0 <0.3.0` |
+| `peerDependencies["@deepseek-ai/dsh"]` | `>=0.2.2-0 <0.3.0` |
 | `dsh.client.platform` | `"web"` (केवल `--client` के साथ) |
 
 </details>
@@ -203,9 +203,9 @@ dsh-start new my-plugin
 
 ## ज्ञात सीमाएँ
 
-- **जनरेट करता है, सत्यापित नहीं।** टेम्पलेट के फ़ील्ड और फ़ाइलों की उपस्थिति सुनिश्चित है, पर यह कोई गारंटी नहीं कि बना प्लगइन लोड हो, जाँच पास करे या किसी भी तरह उपयोगी हो; `npx -y dsh-standards@1.6.10 check . --scope entry --entry-claim static --no-exec` पहला असली द्वार है।
+- **जनरेट करता है, सत्यापित नहीं।** टेम्पलेट के फ़ील्ड और फ़ाइलों की उपस्थिति सुनिश्चित है, पर यह कोई गारंटी नहीं कि बना प्लगइन लोड हो, जाँच पास करे या किसी भी तरह उपयोगी हो; `npx -y dsh-standards@1.6.11 check . --scope entry --entry-claim static --no-exec --host-version 0.2.2-rc.3` पहला असली द्वार है। यह केवल ENTRY के स्थिर हिस्से को कवर करता है और runtime या इंस्टॉल परिणाम नहीं है; C-2 केवल इसलिए जज होता है क्योंकि कमांड `--host-version` पास करती है (इसके बिना NA है, पास नहीं)।
 - **प्रमाणन, ऑडिट या समर्थन नहीं।** सफल जनरेशन का अर्थ आधिकारिक स्वीकृति, मार्केट में सूचीबद्धता या होस्ट इंस्टॉल की सफलता नहीं है — हर चीज़ के लिए अलग प्रमाण और प्रक्रिया चाहिए।
-- **संस्करण सीमा स्थिर है।** बने `engines.dsh` और `peerDependencies` `>=0.2.0 <0.3.0` पर तय हैं; होस्ट विनिर्देश बदलने पर बनी `package.json` हाथ से संपादित करें या इस टूल के नए संस्करण की प्रतीक्षा करें।
+- **संस्करण सीमा स्थिर है।** बने `engines.dsh` और `peerDependencies` `>=0.2.2-0 <0.3.0` पर तय हैं; होस्ट विनिर्देश बदलने पर बनी `package.json` हाथ से संपादित करें या इस टूल के नए संस्करण की प्रतीक्षा करें।
 - **कोई अधिलेखन मोड नहीं।** गैर-रिक्त लक्ष्य अस्वीकार होता है; `--force`, मर्ज या बैकअप नहीं है। फिर से बनाने से पहले पुरानी निर्देशिका संभालें।
 - **संकीर्ण नाम नियम।** scoped नाम, बड़े अक्षर और अंडरस्कोर जानबूझकर असमर्थित हैं ताकि मैनिफ़ेस्ट सीधे प्रकाशन योग्य रहे।
 - **टेस्ट, CI या प्रकाशन कॉन्फ़िग नहीं बनाता।** आउटपुट उतना ही है जितना प्लगइन को चलने के लिए चाहिए; टेस्ट, workflow और npm क्रेडेंशियल आपको जोड़ने हैं।

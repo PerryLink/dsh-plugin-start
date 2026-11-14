@@ -53,9 +53,9 @@ function pkgJson(name, client) {
     main: './index.js',
     exports: { '.': './index.js' },
     files: ['index.js', 'cordis.patch.yml', 'README.md', 'LICENSE'],
-    engines: { node: '>=20', dsh: '>=0.2.0 <0.3.0' },
-    scripts: { check: 'npx -y dsh-standards@1.6.10 check . --scope entry --entry-claim static --no-exec' },
-    peerDependencies: { '@deepseek-ai/dsh': '>=0.2.0 <0.3.0' },
+    engines: { node: '>=24.9.0', dsh: '>=0.2.2-0 <0.3.0' },
+    scripts: { check: 'npx -y dsh-standards@1.6.11 check . --scope entry --entry-claim static --no-exec --host-version 0.2.2-rc.3' },
+    peerDependencies: { '@deepseek-ai/dsh': '>=0.2.2-0 <0.3.0' },
     dsh: {
       manifestVersion: 1,
       capabilities: [],
@@ -72,9 +72,13 @@ function pkgJson(name, client) {
 }
 
 function patchYml(name) {
+  // The row name must be the bare package name, not a relative file path: the
+  // host attaches a package's browser half only to the loader row whose
+  // specifier is the bare package name, and the bundle smoke's G4 accepts only
+  // row.name === manifest.name (or '.'/'./').
   return `- insert:
     - id: ${name}
-      name: ./index.js
+      name: ${name}
 `
 }
 
@@ -100,6 +104,18 @@ export function apply() {}
 }
 
 function readme(name, client) {
+  const patchRule = client
+    ? `## Client patch row
+
+The \`cordis.patch.yml\` row is \`${name}\` — the **bare package name**, not a
+relative path such as \`./index.js\`. The host attaches a package's browser
+half only to the loader row whose specifier is the bare package name, and the
+bundle smoke (G4) accepts only a package-root row named after
+\`package.json#name\` (or \`.\` / \`./\`). Keep the row as written when you
+edit the patch.
+
+`
+    : ''
   return `# ${name}
 
 A DeepSeek Harness plugin created with \`dsh-start\`.
@@ -107,10 +123,13 @@ A DeepSeek Harness plugin created with \`dsh-start\`.
 ## Install (local checkout)
 
 \`\`\`sh
-dsh plugin --profile web add ${name}
+dsh plugin --profile web add .
 \`\`\`
 
-## Declarations
+\`dsh plugin\` forwards to pnpm, so \`add .\` installs this checkout. Use the
+package name only after you publish it (\`dsh plugin --profile web add ${name}\`).
+
+${patchRule}## Declarations
 
 \`package.json\` is JSON, so it cannot carry comments — do not add any.
 
@@ -124,25 +143,30 @@ the checker's hint into a failure.
 ## Next
 
 \`\`\`sh
-# read-only static ENTRY check; requires Node >= 24.9
-npx -y dsh-standards@1.6.10 check . --scope entry --entry-claim static --no-exec
+# read-only static ENTRY check; requires Node >= 24.9.
+# --host-version makes C-2 (engines.dsh) judge against the host you target;
+# without a host version C-2 is NA (compatibility not judged), not a pass.
+npx -y dsh-standards@1.6.11 check . --scope entry --entry-claim static --no-exec --host-version 0.2.2-rc.3
 
 # packaging check: confirm which files npm will publish
 npm pack --dry-run
 
 # install smoke: link this checkout into a throwaway profile
-npx -y @deepseek-ai/dsh plugin --profile demo add .
+dsh plugin --profile demo add .
 \`\`\`
 
 ## Publish
 
 1. Add a \`repository\`, \`homepage\`, and a \`dsh-plugin\` GitHub topic.
-2. Run the static check above and read the report; fix what it flags.
+2. Run the static check above and read the report; fix what it flags. The
+   command passes \`--host-version 0.2.2-rc.3\`; without a host version C-2 is
+   NA, not a pass.
 3. Run the install smoke above, start the host once, and confirm the plugin loads.
 4. Publish with npm and submit to the market you use.
 
-The static check covers the ENTRY layer only: it does not install or run the
-package, and it is not a certification or a host-install result.
+The static check covers the static part of ENTRY only: it does not install or
+run the package, and it is not a certification or a host-install result. Passing
+it is not a runtime result and does not mean the plugin was installed.
 
 ## Optional CI
 
@@ -228,8 +252,11 @@ export async function main(argv, options = {}) {
     for (const file of result.files) console.log(`  ${file}`)
     console.log('\nNext:')
     console.log(`  cd ${path.relative(process.cwd(), result.dir) || '.'}`)
-    console.log('  npx -y dsh-standards@1.6.10 check . --scope entry --entry-claim static --no-exec')
-    console.log('  npx -y @deepseek-ai/dsh plugin --profile demo add .')
+    console.log('  npx -y dsh-standards@1.6.11 check . --scope entry --entry-claim static --no-exec --host-version 0.2.2-rc.3')
+    console.log('  dsh plugin --profile demo add .')
+    if (args.client) {
+      console.log('  (with --client, keep the cordis.patch.yml row name equal to the package name)')
+    }
     return 0
   } catch (error) {
     console.error(error.message)

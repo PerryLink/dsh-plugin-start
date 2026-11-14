@@ -7,7 +7,7 @@
 
 # dsh-plugin-start
 
-**一条命令生成能通过宿主规范校验的 DeepSeek Harness 插件骨架。**
+**一条命令生成符合当前 DSH 插件清单形状的 DeepSeek Harness 插件骨架。**
 
 不装依赖、不启动宿主、不发布——只把 `package.json`、`cordis.patch.yml`、`index.js` 和可选的 `client.js` 按当前规范写进目标目录。
 
@@ -37,7 +37,7 @@ dsh-start new my-plugin
 
 `dsh-plugin-start` 是一个零依赖 Node CLI：给一个包名，它在目标目录写出一个最小但符合当前 DeepSeek Harness 插件规范的骨架——`package.json`（含 `dsh.manifestVersion`、`dsh.bundle.patch`、`engines.dsh` 与宿主强制的 `peerDependencies["@deepseek-ai/dsh"]`）、`cordis.patch.yml`、带 `ctx.effect` 释放形状的 `index.js`，以及 `README.md`、`LICENSE`、`.gitignore`；加 `--client` 再多一个 `client.js` 与 `./client` 导出。
 
-它只做生成：不安装依赖、不跑宿主、不发布，也不声称你的插件已经可用。生成后先跑 `npx -y dsh-standards@1.6.10 check . --scope entry --entry-claim static --no-exec` 做只读静态检查，再跑 `npm pack --dry-run` 与 `npx -y @deepseek-ai/dsh plugin --profile demo add .` 做打包/安装冒烟，骨架才算真正起步。
+它只做生成：不安装依赖、不跑宿主、不发布，也不声称你的插件已经可用。生成后先跑 `npx -y dsh-standards@1.6.11 check . --scope entry --entry-claim static --no-exec --host-version 0.2.2-rc.3` 做只读静态检查，再跑 `npm pack --dry-run` 与 `dsh plugin --profile demo add .` 做打包/安装冒烟，骨架才算真正起步。
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-plugin-start-flow-v5-dark.svg">
@@ -56,7 +56,7 @@ dsh-start new my-plugin
    dsh-start new my-plugin
    ```
 
-   要求 Node.js `>=20`；包本身没有运行时依赖。
+   本工具自身要求 Node.js `>=20`（零依赖，无运行时依赖）；生成的骨架声明 `engines.node: ">=24.9.0"`，因为 0.2.2 线的宿主自身要求 Node `>=24.9.0`。
 
 2. **生成骨架**（`--dir` 可换目标目录，`--client` 额外生成浏览器半）：
 
@@ -72,9 +72,9 @@ dsh-start new my-plugin
 
    ```sh
    cd my-plugin
-   npx -y dsh-standards@1.6.10 check . --scope entry --entry-claim static --no-exec
+   npx -y dsh-standards@1.6.11 check . --scope entry --entry-claim static --no-exec --host-version 0.2.2-rc.3
    npm pack --dry-run
-   npx -y @deepseek-ai/dsh plugin --profile demo add .
+   dsh plugin --profile demo add .
    ```
 
    生成成功时命令会打印 `created <绝对路径>` 和写入的文件清单，退出码为 `0`；参数有误或目录不可写时退出码为 `1`，并打印具体原因。
@@ -86,7 +86,7 @@ dsh-start new my-plugin
 - **一条命令出完整骨架** —— 生成 `package.json`、`cordis.patch.yml`、`index.js`、`README.md`、`LICENSE`、`.gitignore`；`--client` 时追加 `client.js`。
 - **宿主规范字段一次到位** —— 清单版本、bundle patch 路径、`engines.dsh` 与 `peerDependencies` 由生成器统一填写，避免手抄旧模板漏字段。
 - **干净的释放形状** —— `index.js` 的 `apply(ctx)` 用 `ctx.effect(() => () => {})` 包裹资源，停止或热重载时可撤销。
-- **可选浏览器半** —— `--client` 写入 `client.js`，并同步 `exports["./client"]`、`files` 与 `dsh.client.platform = "web"`。
+- **可选浏览器半** —— `--client` 写入 `client.js`，并同步 `exports["./client"]`、`files` 与 `dsh.client.platform = "web"`；`cordis.patch.yml` 的行 `name` 保持裸包名（`./index.js` 之类的相对名不会被宿主挂上浏览器半）。
 - **纯文件生成、无网络、无交互** —— 不拉依赖、不访问 registry、不写全局状态；文件逐个写入，失败以非零退出码收场。
 
 ### 命令
@@ -103,8 +103,8 @@ dsh-start new my-plugin
 
 | 文件 | 关键内容 |
 |---|---|
-| `package.json` | `version: "0.1.0"`、`type: "module"`、`engines.node: ">=20"`、`engines.dsh: ">=0.2.0 <0.3.0"`、`dsh.manifestVersion: 1`、`dsh.bundle.patch: "./cordis.patch.yml"`、`dsh.capabilities` / `dsh.labels` 为空数组 |
-| `cordis.patch.yml` | 一行 `insert`，把 `<name>` 指向 `./index.js` |
+| `package.json` | `version: "0.1.0"`、`type: "module"`、`engines.node: ">=24.9.0"`、`engines.dsh: ">=0.2.2-0 <0.3.0"`、`dsh.manifestVersion: 1`、`dsh.bundle.patch: "./cordis.patch.yml"`、`dsh.capabilities` / `dsh.labels` 为空数组 |
+| `cordis.patch.yml` | 一行 `insert`，行 `name` 是裸包名 `<name>`（不是 `./index.js`）；该行也是宿主挂载浏览器半与 bundle smoke G4 的前置条件 |
 | `index.js` | 导出 `name`、`inject = []` 与 `apply(ctx)`；资源放在 `ctx.effect` 内 |
 | `client.js` | 仅 `--client`：导出 `name` 与空 `apply()` |
 | `README.md` | 生成物的声明说明、下一步命令与发布清单 |
@@ -153,8 +153,8 @@ dsh-start new my-plugin
 | `dsh.bundle.patch` | `./cordis.patch.yml` |
 | `dsh.capabilities` | `[]`（显式表示“不使用任何能力”） |
 | `dsh.labels` | `[]` |
-| `engines.dsh` | `>=0.2.0 <0.3.0` |
-| `peerDependencies["@deepseek-ai/dsh"]` | `>=0.2.0 <0.3.0` |
+| `engines.dsh` | `>=0.2.2-0 <0.3.0` |
+| `peerDependencies["@deepseek-ai/dsh"]` | `>=0.2.2-0 <0.3.0` |
 | `dsh.client.platform` | `"web"`（仅 `--client`） |
 
 </details>
@@ -205,9 +205,9 @@ dsh-start new my-plugin
 
 ## 已知限制
 
-- **只生成，不校验。** 它保证模板字段与文件齐全，不保证生成的插件能加载、能通过检查或以任何方式可用；`npx -y dsh-standards@1.6.10 check . --scope entry --entry-claim static --no-exec` 才是第一道真实门禁。
+- **只生成，不校验。** 它保证模板字段与文件齐全，不保证生成的插件能加载、能通过检查或以任何方式可用；`npx -y dsh-standards@1.6.11 check . --scope entry --entry-claim static --no-exec --host-version 0.2.2-rc.3` 才是第一道真实门禁。它只覆盖 ENTRY 的静态部分，不等于 runtime 或安装结果；带 `--host-version` 时 C-2 才真正判定，不带时 C-2 是 NA，不是通过。
 - **不是认证、审计或背书。** 生成成功不代表官方认可、市场收录或宿主安装成功；这些都需要另外的证据与流程。
-- **版本区间是写死的。** 生成物固定 `engines.dsh` 与 `peerDependencies` 为 `>=0.2.0 <0.3.0`；宿主规范变化后需要手动改生成后的 `package.json`，或等本工具发新版本。
+- **版本区间是写死的。** 生成物固定 `engines.dsh` 与 `peerDependencies` 为 `>=0.2.2-0 <0.3.0`；宿主规范变化后需要手动改生成后的 `package.json`，或等本工具发新版本。
 - **没有覆盖模式。** 目标目录非空即拒绝，不提供 `--force`、合并或备份；重复生成前请自行处理旧目录。
 - **包名规则偏窄。** 不支持 scoped 包名、大写与下划线；这是有意的，避免生成无法直接发布的清单。
 - **不生成测试、CI、发布配置。** 生成物只有插件运行所需的最小文件；测试、workflow、npm 发布凭据都要你自己补。

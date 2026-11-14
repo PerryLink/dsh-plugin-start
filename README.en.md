@@ -7,7 +7,7 @@
 
 # dsh-plugin-start
 
-**One command scaffolds a DeepSeek Harness plugin skeleton that passes host-spec checks.**
+**One command scaffolds a DeepSeek Harness plugin skeleton with the current manifest shape.**
 
 No dependency install, no host boot, no publish — it just writes `package.json`, `cordis.patch.yml`, `index.js`, and optionally `client.js` into the target directory, shaped to the current spec.
 
@@ -37,7 +37,7 @@ dsh-start new my-plugin
 
 `dsh-plugin-start` is a zero-dependency Node CLI: give it a package name and it writes a minimal but current DeepSeek Harness plugin skeleton into the target directory — `package.json` (with `dsh.manifestVersion`, `dsh.bundle.patch`, `engines.dsh`, and the host-enforced `peerDependencies["@deepseek-ai/dsh"]`), `cordis.patch.yml`, an `index.js` with a `ctx.effect` dispose shape, plus `README.md`, `LICENSE`, and `.gitignore`; add `--client` for a `client.js` and a `./client` export.
 
-It only generates: it does not install dependencies, run a host, or publish, and it never claims your plugin is ready. Run `npx -y dsh-standards@1.6.10 check . --scope entry --entry-claim static --no-exec` for a read-only static check, then `npm pack --dry-run` and `npx -y @deepseek-ai/dsh plugin --profile demo add .` for packaging and an install smoke — that is where the skeleton starts proving itself.
+It only generates: it does not install dependencies, run a host, or publish, and it never claims your plugin is ready. Run `npx -y dsh-standards@1.6.11 check . --scope entry --entry-claim static --no-exec --host-version 0.2.2-rc.3` for a read-only static check, then `npm pack --dry-run` and `dsh plugin --profile demo add .` for packaging and an install smoke — that is where the skeleton starts proving itself.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-plugin-start-flow-v5-dark.svg">
@@ -56,7 +56,7 @@ It only generates: it does not install dependencies, run a host, or publish, and
    dsh-start new my-plugin
    ```
 
-   Requires Node.js `>=20`; the package has no runtime dependencies.
+   The CLI itself requires Node.js `>=20` (zero dependencies); the generated skeleton declares `engines.node: ">=24.9.0"`, because the 0.2.2 DSH line requires Node `>=24.9.0`.
 
 2. **Generate the skeleton** (`--dir` changes the target, `--client` adds the browser half):
 
@@ -70,9 +70,9 @@ It only generates: it does not install dependencies, run a host, or publish, and
 
    ```sh
    cd my-plugin
-   npx -y dsh-standards@1.6.10 check . --scope entry --entry-claim static --no-exec
+   npx -y dsh-standards@1.6.11 check . --scope entry --entry-claim static --no-exec --host-version 0.2.2-rc.3
    npm pack --dry-run
-   npx -y @deepseek-ai/dsh plugin --profile demo add .
+   dsh plugin --profile demo add .
    ```
 
    On success it prints `created <absolute path>` plus the list of written files and exits `0`; bad arguments or an unwritable directory exit `1` with the specific reason.
@@ -84,7 +84,7 @@ It only generates: it does not install dependencies, run a host, or publish, and
 - **Complete skeleton in one command** — writes `package.json`, `cordis.patch.yml`, `index.js`, `README.md`, `LICENSE`, and `.gitignore`; `--client` additionally writes `client.js`.
 - **Host-spec fields filled in** — manifest version, bundle patch path, `engines.dsh`, and `peerDependencies` come from one generator, so you cannot forget a field copied from an old template.
 - **Clean dispose shape** — `apply(ctx)` wraps resources in `ctx.effect(() => () => {})`, so stop and hot-reload can unwind them.
-- **Optional browser half** — `--client` writes `client.js` and updates `exports["./client"]`, `files`, and `dsh.client.platform = "web"` together.
+- **Optional browser half** — `--client` writes `client.js` and updates `exports["./client"]`, `files`, and `dsh.client.platform = "web"` together; the `cordis.patch.yml` row keeps the bare package name as `name` (a relative name such as `./index.js` is not attached to the browser half).
 - **Pure file generation, no network, no prompts** — no dependency fetch, no registry access, no global state; files are written once and failures end in a non-zero exit code.
 
 ### Commands
@@ -101,8 +101,8 @@ It only generates: it does not install dependencies, run a host, or publish, and
 
 | File | Key content |
 |---|---|
-| `package.json` | `version: "0.1.0"`, `type: "module"`, `engines.node: ">=20"`, `engines.dsh: ">=0.2.0 <0.3.0"`, `dsh.manifestVersion: 1`, `dsh.bundle.patch: "./cordis.patch.yml"`, `dsh.capabilities` / `dsh.labels` as empty arrays |
-| `cordis.patch.yml` | One `insert` entry binding `<name>` to `./index.js` |
+| `package.json` | `version: "0.1.0"`, `type: "module"`, `engines.node: ">=24.9.0"`, `engines.dsh: ">=0.2.2-0 <0.3.0"`, `dsh.manifestVersion: 1`, `dsh.bundle.patch: "./cordis.patch.yml"`, `dsh.capabilities` / `dsh.labels` as empty arrays |
+| `cordis.patch.yml` | One `insert` row whose `name` is the bare package name `<name>` (not `./index.js`); that row is also what lets the host attach the browser half, and a bundle-smoke G4 precondition |
 | `index.js` | Exports `name`, `inject = []`, and `apply(ctx)`; resources live inside `ctx.effect` |
 | `client.js` | Only with `--client`: exports `name` and an empty `apply()` |
 | `README.md` | Declaration notes, next commands, and a publish checklist for the generated plugin |
@@ -151,8 +151,8 @@ Declarations the generator hard-codes into `package.json` (edit the generated fi
 | `dsh.bundle.patch` | `./cordis.patch.yml` |
 | `dsh.capabilities` | `[]` (explicitly "uses none") |
 | `dsh.labels` | `[]` |
-| `engines.dsh` | `>=0.2.0 <0.3.0` |
-| `peerDependencies["@deepseek-ai/dsh"]` | `>=0.2.0 <0.3.0` |
+| `engines.dsh` | `>=0.2.2-0 <0.3.0` |
+| `peerDependencies["@deepseek-ai/dsh"]` | `>=0.2.2-0 <0.3.0` |
 | `dsh.client.platform` | `"web"` (only with `--client`) |
 
 </details>
@@ -203,9 +203,9 @@ Only `^[a-z0-9][a-z0-9-]*$` is accepted: lowercase letters, digits, and hyphens,
 
 ## Known limitations
 
-- **It generates, it does not verify.** Template fields and files are guaranteed present, but nothing guarantees the generated plugin loads, passes checks, or is usable in any way; `npx -y dsh-standards@1.6.10 check . --scope entry --entry-claim static --no-exec` is the first real gate.
+- **It generates, it does not verify.** Template fields and files are guaranteed present, but nothing guarantees the generated plugin loads, passes checks, or is usable in any way; `npx -y dsh-standards@1.6.11 check . --scope entry --entry-claim static --no-exec --host-version 0.2.2-rc.3` is the first real gate. It covers the static part of ENTRY only and is not a runtime or install result; C-2 is judged only because the command passes `--host-version` (without one it is NA, not a pass).
 - **Not a certification, audit, or endorsement.** A successful generation does not mean official approval, market listing, or a successful host install — each of those needs separate evidence and process.
-- **The version range is hard-coded.** Generated `engines.dsh` and `peerDependencies` are fixed at `>=0.2.0 <0.3.0`; when the host spec moves, edit the generated `package.json` by hand or wait for a new release of this tool.
+- **The version range is hard-coded.** Generated `engines.dsh` and `peerDependencies` are fixed at `>=0.2.2-0 <0.3.0`; when the host spec moves, edit the generated `package.json` by hand or wait for a new release of this tool.
 - **No overwrite mode.** A non-empty target is rejected; there is no `--force`, merge, or backup. Deal with the old directory before regenerating.
 - **Narrow name rule.** Scoped names, uppercase, and underscores are unsupported by design, so the manifest stays directly publishable.
 - **No tests, CI, or publish config generated.** The output is the minimum a plugin needs to run; tests, workflows, and npm credentials are yours to add.
