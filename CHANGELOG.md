@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.7 — 2026-11-14
+- Generated `scripts.check`, the generated README, the CLI next-step, and all five READMEs pin `dsh-standards@1.6.12` (was 1.6.11); the check arguments are unchanged, so the entry still passes `--host-version 0.2.2-rc.3` and C-2 is judged.
+- Release workflow: now triggered by a `v*` tag push (previously `workflow_dispatch` only), with an idempotent guard that skips `npm publish` when the version already exists on npm, and a `concurrency` group that serializes publishes per ref — consistent with the publish-race fix shipped in `dsh-standards` 1.6.12.
+- Tests: `node --test test/*.test.js` 3/3; the generated-pin assertions were updated to 1.6.12.
+
 ## 0.2.6 (2026-11-14)
 - `--client` (and every generated patch row) now writes `name: <package-name>` instead of `name: ./index.js`: the rc3 host attaches a package's browser half only to a Loader row whose specifier is the bare package name, and the bundle smoke's G4 accepts only a package-root row named after `manifest.name`. The generated README explains the rule; tests assert the row name.
 - Generated `engines.node` is `>=24.9.0`; generated `engines.dsh` / `peerDependencies["@deepseek-ai/dsh"]` are `>=0.2.2-0 <0.3.0` (the `-0` bound is what includes the rc prerelease under npm's default semver).

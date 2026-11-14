@@ -54,7 +54,7 @@ function pkgJson(name, client) {
     exports: { '.': './index.js' },
     files: ['index.js', 'cordis.patch.yml', 'README.md', 'LICENSE'],
     engines: { node: '>=24.9.0', dsh: '>=0.2.2-0 <0.3.0' },
-    scripts: { check: 'npx -y dsh-standards@1.6.11 check . --scope entry --entry-claim static --no-exec --host-version 0.2.2-rc.3' },
+    scripts: { check: 'npx -y dsh-standards@1.6.12 check . --scope entry --entry-claim static --no-exec --host-version 0.2.2-rc.3' },
     peerDependencies: { '@deepseek-ai/dsh': '>=0.2.2-0 <0.3.0' },
     dsh: {
       manifestVersion: 1,
@@ -146,7 +146,7 @@ the checker's hint into a failure.
 # read-only static ENTRY check; requires Node >= 24.9.
 # --host-version makes C-2 (engines.dsh) judge against the host you target;
 # without a host version C-2 is NA (compatibility not judged), not a pass.
-npx -y dsh-standards@1.6.11 check . --scope entry --entry-claim static --no-exec --host-version 0.2.2-rc.3
+npx -y dsh-standards@1.6.12 check . --scope entry --entry-claim static --no-exec --host-version 0.2.2-rc.3
 
 # packaging check: confirm which files npm will publish
 npm pack --dry-run
@@ -252,7 +252,7 @@ export async function main(argv, options = {}) {
     for (const file of result.files) console.log(`  ${file}`)
     console.log('\nNext:')
     console.log(`  cd ${path.relative(process.cwd(), result.dir) || '.'}`)
-    console.log('  npx -y dsh-standards@1.6.11 check . --scope entry --entry-claim static --no-exec --host-version 0.2.2-rc.3')
+    console.log('  npx -y dsh-standards@1.6.12 check . --scope entry --entry-claim static --no-exec --host-version 0.2.2-rc.3')
     console.log('  dsh plugin --profile demo add .')
     if (args.client) {
       console.log('  (with --client, keep the cordis.patch.yml row name equal to the package name)')

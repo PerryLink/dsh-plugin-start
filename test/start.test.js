@@ -30,7 +30,7 @@ test('creates a host plugin skeleton', () => {
   // so the range needs the `-0` lower bound.
   assert.deepEqual(pkg.engines, { node: '>=24.9.0', dsh: '>=0.2.2-0 <0.3.0' })
   assert.equal(pkg.peerDependencies['@deepseek-ai/dsh'], '>=0.2.2-0 <0.3.0')
-  assert.match(pkg.scripts.check, /dsh-standards@1\.6\.11/)
+  assert.match(pkg.scripts.check, /dsh-standards@1\.6\.12/)
   assert.match(pkg.scripts.check, /--host-version 0\.2\.2-rc\.3/)
 
   // The patch row is the bare package name, not ./index.js.
@@ -43,7 +43,7 @@ test('creates a host plugin skeleton', () => {
   assert.match(readme, /dsh plugin --profile web add \./)
   assert.match(readme, /--host-version 0\.2\.2-rc\.3/)
   assert.match(readme, /C-2 is NA \(compatibility not judged\), not a pass/)
-  assert.match(out.stdout, /dsh-standards@1\.6\.11/)
+  assert.match(out.stdout, /dsh-standards@1\.6\.12/)
 })
 
 test('creates a client plugin with --client', () => {

@@ -37,7 +37,7 @@ dsh-start new my-plugin
 
 `dsh-plugin-start` 是一个零依赖 Node CLI：给一个包名，它在目标目录写出一个最小但符合当前 DeepSeek Harness 插件规范的骨架——`package.json`（含 `dsh.manifestVersion`、`dsh.bundle.patch`、`engines.dsh` 与宿主强制的 `peerDependencies["@deepseek-ai/dsh"]`）、`cordis.patch.yml`、带 `ctx.effect` 释放形状的 `index.js`，以及 `README.md`、`LICENSE`、`.gitignore`；加 `--client` 再多一个 `client.js` 与 `./client` 导出。
 
-它只做生成：不安装依赖、不跑宿主、不发布，也不声称你的插件已经可用。生成后先跑 `npx -y dsh-standards@1.6.11 check . --scope entry --entry-claim static --no-exec --host-version 0.2.2-rc.3` 做只读静态检查，再跑 `npm pack --dry-run` 与 `dsh plugin --profile demo add .` 做打包/安装冒烟，骨架才算真正起步。
+它只做生成：不安装依赖、不跑宿主、不发布，也不声称你的插件已经可用。生成后先跑 `npx -y dsh-standards@1.6.12 check . --scope entry --entry-claim static --no-exec --host-version 0.2.2-rc.3` 做只读静态检查，再跑 `npm pack --dry-run` 与 `dsh plugin --profile demo add .` 做打包/安装冒烟，骨架才算真正起步。
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-plugin-start-flow-v5-dark.svg">
@@ -72,7 +72,7 @@ dsh-start new my-plugin
 
    ```sh
    cd my-plugin
-   npx -y dsh-standards@1.6.11 check . --scope entry --entry-claim static --no-exec --host-version 0.2.2-rc.3
+   npx -y dsh-standards@1.6.12 check . --scope entry --entry-claim static --no-exec --host-version 0.2.2-rc.3
    npm pack --dry-run
    dsh plugin --profile demo add .
    ```
@@ -205,7 +205,7 @@ dsh-start new my-plugin
 
 ## 已知限制
 
-- **只生成，不校验。** 它保证模板字段与文件齐全，不保证生成的插件能加载、能通过检查或以任何方式可用；`npx -y dsh-standards@1.6.11 check . --scope entry --entry-claim static --no-exec --host-version 0.2.2-rc.3` 才是第一道真实门禁。它只覆盖 ENTRY 的静态部分，不等于 runtime 或安装结果；带 `--host-version` 时 C-2 才真正判定，不带时 C-2 是 NA，不是通过。
+- **只生成，不校验。** 它保证模板字段与文件齐全，不保证生成的插件能加载、能通过检查或以任何方式可用；`npx -y dsh-standards@1.6.12 check . --scope entry --entry-claim static --no-exec --host-version 0.2.2-rc.3` 才是第一道真实门禁。它只覆盖 ENTRY 的静态部分，不等于 runtime 或安装结果；带 `--host-version` 时 C-2 才真正判定，不带时 C-2 是 NA，不是通过。
 - **不是认证、审计或背书。** 生成成功不代表官方认可、市场收录或宿主安装成功；这些都需要另外的证据与流程。
 - **版本区间是写死的。** 生成物固定 `engines.dsh` 与 `peerDependencies` 为 `>=0.2.2-0 <0.3.0`；宿主规范变化后需要手动改生成后的 `package.json`，或等本工具发新版本。
 - **没有覆盖模式。** 目标目录非空即拒绝，不提供 `--force`、合并或备份；重复生成前请自行处理旧目录。
