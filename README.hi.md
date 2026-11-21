@@ -44,6 +44,11 @@ dsh-start new my-plugin
   <img src="docs/assets/dsh-plugin-start-flow-v5-light.svg" width="100%" alt="dsh-plugin-start का फ़नल: argv तीन प्रवेश द्वारों से गुज़रता है (आर्ग्युमेंट पार्सिंग, नाम रेगेक्स, लक्ष्य निर्देशिका) और कोई भी एक पंक्ति कारण छापकर exit 1 दे सकता है; द्वार पार होने पर writeFileSync आधार छह फ़ाइलें लिखता है, --client client.js और package.json के तीन बदलाव जोड़ता है, और दोनों लेन एक ही रसीद पर मिलती हैं">
 </picture>
 
+![dsh-plugin-start का असली टर्मिनल रन](docs/assets/dsh-plugin-start-demo.gif)
+
+*इस रिपॉज़िटरी के असली रन का एनिमेटेड रीप्ले (2026-11-21)।*
+
+
 ## तीन चरणों में शुरुआत
 
 1. **इंस्टॉल करें** (कोई एक चुनें):

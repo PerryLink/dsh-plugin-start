@@ -44,6 +44,11 @@ Ele só gera: não instala dependências, não executa um host nem publica, e nu
   <img src="docs/assets/dsh-plugin-start-flow-v5-light.svg" width="100%" alt="funil do dsh-plugin-start: o argv passa por três portões de admissão (análise de argumentos, regex do nome, diretório de destino) e qualquer um pode imprimir um motivo e sair com exit 1; depois deles o writeFileSync grava os seis arquivos base, --client acrescenta client.js e três reescritas no package.json, e as duas faixas convergem em um único recibo">
 </picture>
 
+![dsh-plugin-start: execução real de terminal](docs/assets/dsh-plugin-start-demo.gif)
+
+*Repetição animada de uma execução real deste repositório (2026-11-21).*
+
+
 ## Instalação em três passos
 
 1. **Instalar** (escolha uma):

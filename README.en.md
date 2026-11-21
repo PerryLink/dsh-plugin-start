@@ -46,6 +46,11 @@ It only generates: it does not install dependencies, run a host, or publish, and
 
 ## Three-step setup
 
+
+![dsh-plugin-start: real terminal run](docs/assets/dsh-plugin-start-demo.gif)
+
+*Animated replay of a real run in this repository (2026-11-21).*
+
 1. **Install** (pick one):
 
    ```sh

@@ -44,6 +44,11 @@ Solo genera: no instala dependencias, no ejecuta un host ni publica, y nunca afi
   <img src="docs/assets/dsh-plugin-start-flow-v5-light.svg" width="100%" alt="embudo de dsh-plugin-start: argv pasa tres puertas de admisión (análisis de argumentos, regex del nombre, directorio de destino) y cualquiera puede imprimir un motivo y salir con exit 1; tras ellas writeFileSync escribe los seis archivos base, --client añade client.js y tres reescrituras de package.json, y ambos carriles convergen en un único recibo">
 </picture>
 
+![dsh-plugin-start: ejecución real de terminal](docs/assets/dsh-plugin-start-demo.gif)
+
+*Repetición animada de una ejecución real de este repositorio (2026-11-21).*
+
+
 ## Instalación en tres pasos
 
 1. **Instalar** (elige una):
