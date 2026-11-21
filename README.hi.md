@@ -241,3 +241,8 @@ Topics: `dsh`, `dsh-plugin`, `deepseek-harness`, `scaffold`, `starter`
 [LICENSE](LICENSE) (Apache License 2.0) © 2026 dsh-plugin-start contributors
 
 <p align="center"><sub>Apache-2.0 · सामुदायिक टूल, DeepSeek से संबद्ध नहीं।</sub></p>
+
+## टूलचेन और अपस्ट्रीम (तथ्य, 2026-11)
+
+- यह टूल टूलचेन का स्कैफ़ोल्डर प्रवेश-बिंदु है: जनरेट किया गया आउटपुट `dsh-standards` ENTRY जाँच और एक सलाहकारी CI स्निपेट शामिल करता है।
+- अपस्ट्रीम: `dsh-plugin-hub` main में संस्करण-जागरूक npm मेटाडेटा जाँच शामिल हो गई है ([`4f3a560`](https://github.com/dshplugin/dsh-plugin-hub/commit/4f3a560), 2026-11-09); दायरा केवल इंस्टॉल-समय npm मेटाडेटा है; यह ENTRY नहीं चलाता और कोई अनुमोदन नहीं है।

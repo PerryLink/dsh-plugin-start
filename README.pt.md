@@ -241,3 +241,8 @@ Este projeto faz parte da família [PerryLink](https://github.com/PerryLink) de 
 [LICENSE](LICENSE) (Apache License 2.0) © 2026 dsh-plugin-start contributors
 
 <p align="center"><sub>Apache-2.0 · Ferramenta da comunidade, sem vínculo com a DeepSeek.</sub></p>
+
+## Cadeia de ferramentas e upstream (fatos, 2026-11)
+
+- Esta ferramenta é a entrada de andaime da cadeia de ferramentas: a saída gerada inclui a verificação ENTRY do `dsh-standards` e um trecho de CI informativo.
+- Upstream: `dsh-plugin-hub` main inclui uma verificação de metadados npm ciente da versão ([`4f3a560`](https://github.com/dshplugin/dsh-plugin-hub/commit/4f3a560), 2026-11-09); o escopo é apenas metadados npm na instalação; não executa ENTRY nem constitui aval.
